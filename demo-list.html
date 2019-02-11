@@ -30,7 +30,7 @@
 			req.responseType = "arraybuffer";
 			req.onload = function () {
 				var ab = req.response;
-				cd = new CompactDictionary(ab);
+				cd = new jsmigemo.CompactDictionary(ab);
 			}
 			req.send(null);
 		}
