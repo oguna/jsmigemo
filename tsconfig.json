@@ -1,10 +1,9 @@
 {
 	 "compilerOptions": {
 	 "target": "es6",
-	  "module": "amd",
+	  "module": "commonjs",
 	  "declaration": true,
-	  "outFile": "./jsmigemo.js",
+	  "outDir": "dist",
 	  "strict": true
-	},
-	"include": ["./lib/**/*.ts"]
+	}
 }

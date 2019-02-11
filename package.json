@@ -9,7 +9,9 @@
     "build": "tsc",
     "test": "mocha -r ts-node/register test/**/*.ts"
   },
-  "keywords": ["migemo"],
+  "keywords": [
+    "migemo"
+  ],
   "author": "oguna <nao.lk.118@gmail.com> (https://github.com/oguna)",
   "license": "ISC",
   "repository": {
