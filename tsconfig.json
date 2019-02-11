@@ -1,0 +1,10 @@
+{
+	 "compilerOptions": {
+	 "target": "es6",
+	  "module": "amd",
+	  "declaration": true,
+	  "outFile": "./jsmigemo.js",
+	  "strict": true
+	},
+	"include": ["./lib/**/*.ts"]
+}

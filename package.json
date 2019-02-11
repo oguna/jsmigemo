@@ -1,0 +1,30 @@
+{
+  "name": "jsmigemo",
+  "version": "0.1.0",
+  "description": "migemo on node.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "mocha -r ts-node/register test/**/*.ts"
+  },
+  "keywords": ["migemo"],
+  "author": "oguna <nao.lk.118@gmail.com> (https://github.com/oguna)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/oguna/jsmigemo.git"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.24",
+    "chai": "^4.2.0",
+    "expect": "^23.6.0",
+    "mocha": "^5.2.0",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {}
+}
