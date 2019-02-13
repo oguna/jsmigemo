@@ -1,5 +1,7 @@
 # jsmigemo
 
+[![Build Status](https://travis-ci.org/oguna/jsmigemo.svg?branch=master)](https://travis-ci.org/oguna/jsmigemo)
+
 JavaScriptでMigemoを利用するためのライブラリ
 
 ## TODO
