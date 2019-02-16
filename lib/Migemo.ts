@@ -1,6 +1,7 @@
 import { CompactDictionary } from "./CompactDictionary";
 import { RegexGenerator } from "./RegexGenerator";
 import { romajiToHiraganaPredictively } from "./RomajiProcessor";
+import {zen2han_conv, han2zen_conv, hira2kata_conv} from "./CharacterConverter";
 export class Migemo {
     dict: CompactDictionary | null;
     constructor() {
@@ -18,11 +19,11 @@ export class Migemo {
             }
         }
         // queryを全角にして候補に加える
-        //let zen = CharacterConverter.han2zen(query);
-        //generator.add(zen);
+        let zen = han2zen_conv(word);
+        generator.add(zen);
         // queryを半角にして候補に加える
-        //String han = CharacterConverter.zen2
-        //generator.add(hen);
+        let han = zen2han_conv(word);
+        generator.add(han);
 
         // 平仮名、カタカナ、及びそれによる辞書引き追加
         let hiraganaResult = romajiToHiraganaPredictively(lower);
@@ -36,10 +37,10 @@ export class Migemo {
                 }
             }
             // 片仮名文字列を生成し候補に加える
-            //String kata = CharacterConverter.hira2kata(a);
-            //generator.add(kata);
+            let kata = hira2kata_conv(hira);
+            generator.add(kata);
             // 半角カナを生成し候補に加える
-            //generator.add(CharacterConverter.zen2han(kata));
+            generator.add(zen2han_conv(kata));
         }
         return generator.generate();
     }

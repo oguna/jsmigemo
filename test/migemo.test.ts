@@ -21,7 +21,7 @@ describe("migemo", function () {
         let migemo = new Migemo();
         migemo.setDict(dict);
         let result = migemo.query("kikai");
-        assert.equal(result, "(ｷｶｲ|キカイ|既会員|棋界|奇怪|喜界|毀壊|機[会械]|貴会|器械|気塊|きかい|ｋｉｋａｉ|kikai)");
+        assert.equal(result, "(kikai|きかい|キカイ|喜界|器械|奇怪|既会員|棋界|機[会械]|毀壊|気塊|貴会|ｋｉｋａｉ|ｷｶｲ)");
     });
 
     it("連文節の検索（大文字区切り）", function() {
