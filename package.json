@@ -1,9 +1,10 @@
 {
   "name": "jsmigemo",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "migemo on javascript",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
+  "bin": "bin/jsmigemo-cli.js",
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc",

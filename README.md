@@ -6,12 +6,22 @@ JavaScriptでMigemoを利用するためのライブラリ
 
 ## HOW TO USE
 
+### CLI
+
+```
+$ npm install jsmigemo
+$ jsmigemo
+QUERY: kensaku
+PATTERN: (kensaku|けんさく|ケンサク|建策|憲[作冊]|検索|献策|研削|羂索|ｋｅｎｓａｋｕ|ｹﾝｻｸ)
+```
+
 ### Node.js
 
 ```js
 const migemo = require('jsmigemo');
+const path = require('path');
 const fs = require('fs');
-let buffer = fs.readFileSync('./node_modules/jsmigemo/migemo-compact-dict');
+let buffer = fs.readFileSync(path.join(migemo.migemo_module_path, '../../migemo-compact-dict'));
 let ab = new ArrayBuffer(buffer.length);
 let view = new Uint8Array(ab);
 for (var i = 0; i < buffer.length; ++i) {
@@ -64,8 +74,6 @@ queryメソッドはステートレスのため、複数のスレッドから同
 - 辞書ファイルの生成スクリプト
 - 辞書ファイルを他の辞書（kuromoji-ipadic-neologdとか）から生成する
 - 処理の高速化
-- シングルJSファイルでの配布
-- CLIアプリ化
 
 ## 辞書ファイルについて
 本ライブラリに付属の辞書ファイルは、SKK辞書から生成されています。
