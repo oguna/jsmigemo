@@ -6,6 +6,24 @@ JavaScriptでMigemoを利用するためのライブラリ
 
 ## HOW TO USE
 
+### Node.js
+
+```js
+const migemo = require('jsmigemo');
+const fs = require('fs');
+let buffer = fs.readFileSync('./node_modules/jsmigemo/migemo-compact-dict');
+let ab = new ArrayBuffer(buffer.length);
+let view = new Uint8Array(ab);
+for (var i = 0; i < buffer.length; ++i) {
+	view[i] = buffer[i];
+}
+let dict = new migemo.CompactDictionary(ab);
+let m = new migemo.Migemo();
+m.setDict(dict);
+console.log(m.query('kensaku'));
+//=> (kensaku|けんさく|ケンサク|建策|憲[作冊]|検索|献策|研削|羂索|ｋｅｎｓａｋｕ|ｹﾝｻｸ)
+```
+
 ### Browser
 
 `jsmigemo.js` と `migemo-compact-dict` を本リポジトリから用意します。
