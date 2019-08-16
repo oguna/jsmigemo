@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { assert } from "chai"
-import { CompactDictionary } from "../lib/CompactDictionary";
+import { CompactDictionary } from "../src/CompactDictionary";
 import { readFileSync } from "fs";
 
 describe('CompactDictionary', function () {

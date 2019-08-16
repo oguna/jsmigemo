@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { assert } from "chai"
-import { bitCount } from "../lib/utils";
+import { bitCount } from "../src/utils";
 
 describe('utils', function() {
   describe('#bitCount()', function() {

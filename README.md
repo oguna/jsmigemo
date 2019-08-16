@@ -1,6 +1,7 @@
 # jsmigemo
 
 [![Build Status](https://travis-ci.org/oguna/jsmigemo.svg?branch=master)](https://travis-ci.org/oguna/jsmigemo)
+[![npm version](https://badge.fury.io/js/jsmigemo.svg)](https://badge.fury.io/js/jsmigemo)
 
 JavaScriptでMigemoを利用するためのライブラリ
 

@@ -1,7 +1,7 @@
 import { describe, it } from "mocha";
 import { assert } from "chai"
-import { Migemo } from "../lib/Migemo";
-import { CompactDictionary } from "../lib";
+import { Migemo } from "../src/Migemo";
+import { CompactDictionary } from "../src";
 import { readFileSync } from "fs";
 
 describe("migemo", function () {

@@ -1,9 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: './dist/lib/index.js',
+  entry: './lib/index.js',
+  mode: 'production',
   output: {
-    filename: 'jsmigemo.js',
+    filename: './dist/jsmigemo.js',
     path: path.resolve(__dirname, './'),
     library: 'jsmigemo',
     libraryTarget: 'umd'

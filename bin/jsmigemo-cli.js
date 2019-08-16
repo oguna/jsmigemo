@@ -3,12 +3,12 @@
 * jsmigemo-cli.js
 */
 
-const migemo = require('../dist/lib/index.js');
+const migemo = require('../lib/index.js');
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
-let buffer = fs.readFileSync(path.join(migemo.migemo_module_path, '../../migemo-compact-dict'));
+let buffer = fs.readFileSync(path.join(migemo.migemo_module_path, '../migemo-compact-dict'));
 let ab = new ArrayBuffer(buffer.length);
 let view = new Uint8Array(ab);
 for (var i = 0; i < buffer.length; ++i) {

@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { assert } from "chai"
-import { hira2kata_conv } from "../lib/CharacterConverter";
+import { hira2kata_conv } from "../src/CharacterConverter";
 
 describe('CharacterConverter', function() {
   describe('#hira2kata()', function() {

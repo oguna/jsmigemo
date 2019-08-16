@@ -1,14 +1,15 @@
 {
   "name": "jsmigemo",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "migemo on javascript",
-  "main": "dist/lib/index.js",
-  "types": "dist/lib/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "bin": "bin/jsmigemo-cli.js",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepare": "npm run build && npm run dist",
     "build": "tsc",
-    "test": "mocha -r ts-node/register test/**/*.ts"
+    "test": "mocha -r ts-node/register test/**/*.ts",
+    "dist": "webpack"
   },
   "keywords": [
     "migemo"

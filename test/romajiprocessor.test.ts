@@ -1,6 +1,6 @@
 import { describe, it } from "mocha";
 import { assert } from "chai"
-import { romajiToHiragana,romajiToHiraganaPredictively } from "../lib/RomajiProcessor";
+import { romajiToHiragana,romajiToHiraganaPredictively } from "../src/RomajiProcessor";
 
 describe('RomajiProcessor', function() {
   describe('#romajiToHiragana()', function() {
