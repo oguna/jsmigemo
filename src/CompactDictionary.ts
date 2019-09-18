@@ -37,17 +37,17 @@ export class CompactDictionary {
     private static readTrie(dv: DataView, offset: number, compactHiragana: boolean): [LOUDSTrie, number] {
         let keyTrieEdgeSize = dv.getInt32(offset);
         offset += 4;
-        let keyTrieEdges = "";
+        let keyTrieEdges = new Uint16Array(keyTrieEdgeSize);
         for (let i = 0; i < keyTrieEdgeSize; i++) {
-            let c: string;
+            let c: number;
             if (compactHiragana) {
-                c = String.fromCodePoint(this.decode(dv.getUint8(offset)));
+                c = this.decode(dv.getUint8(offset));
                 offset += 1;
             } else {
-                c = String.fromCodePoint(dv.getUint16(offset));
+                c = dv.getUint16(offset);
                 offset += 2;
             }
-            keyTrieEdges = keyTrieEdges + c;
+            keyTrieEdges[i] = c;
         }
         let keyTrieBitVectorSize = dv.getUint32(offset);
         offset += 4;

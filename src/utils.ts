@@ -14,12 +14,12 @@
         }
         return -(low + 1);
     }
-    export function binarySearchChar(a: string, fromIndex: number, toIndex: number, key: number) {
+    export function binarySearchUint16(a: Uint16Array, fromIndex: number, toIndex: number, key: number) {
         var low = fromIndex;
         var high = toIndex - 1;
         while (low <= high) {
             const mid = (low + high) >>> 1;
-            const midVal = a.charCodeAt(mid);
+            const midVal = a[mid];
 
             if (midVal < key)
                 low = mid + 1;

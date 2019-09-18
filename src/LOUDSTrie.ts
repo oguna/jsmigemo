@@ -1,25 +1,25 @@
-import {binarySearchChar} from "./utils";
+import {binarySearchUint16} from "./utils";
 import {BitVector} from "./BitVector";
 
 export class LOUDSTrie {
     bitVector: BitVector;
-    edges: string;
+    edges: Uint16Array;
 
-    constructor(bitVector: BitVector, edges: string) {
+    constructor(bitVector: BitVector, edges: Uint16Array) {
         this.bitVector = bitVector;
         this.edges = edges;
     }
 
-    getKey(index: number) {
+    getKey(index: number): string {
         if (index <= 0 || this.edges.length <= index) {
             throw new RangeError();
         }
-        let sb = "";
+        let sb = new Array<number>();
         while (index > 1) { 
-            sb = this.edges[index] + sb;
+            sb.push(this.edges[index]);
             index = this.parent(index);
         }
-        return sb;
+        return sb.reverse().map(v => String.fromCharCode(v)).join('');
     }
 
     parent(x: number): number {
@@ -43,7 +43,7 @@ export class LOUDSTrie {
         let childStartBit = this.bitVector.select(firstChild, true);
         let childEndBit = this.bitVector.nextClearBit(childStartBit);
         let childSize = childEndBit - childStartBit;
-        let result = binarySearchChar(this.edges, firstChild, firstChild + childSize, c);
+        let result = binarySearchUint16(this.edges, firstChild, firstChild + childSize, c);
         return result >= 0 ? result : -1;
     }
 
