@@ -21,13 +21,15 @@ export class CompactHiraganaString {
     public static encodeString(str: string): Uint8Array {
         const result = new Uint8Array(str.length);
         for (let i = 0; i < str.length; i++) {
-            result[i] = CompactHiraganaString.encodeChar(str.charAt(i));
+            result[i] = CompactHiraganaString.encodeChar(str.charCodeAt(i));
         }
         return result;
     }
 
-    public static encodeChar(c: string): number {
-        const b = c.codePointAt(0)!;
+    public static encodeChar(b: number): number {
+        if (b == 0) {
+            return 0;
+        }
         if (0x20 <= b && b <= 0x7e) {
             return b;
         }
@@ -37,6 +39,6 @@ export class CompactHiraganaString {
         if (0x30fc === b) {
             return b - 0x3040 + 0xa0;
         }
-        throw new RangeError();
+        throw new RangeError('unknown character to encode: ' + b);
     }
 }

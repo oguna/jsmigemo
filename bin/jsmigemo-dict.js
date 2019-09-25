@@ -3,10 +3,8 @@
 * jsmigemo-cli.js
 */
 
-const migemo = require('../lib/index.js');
 const {CompactDictionaryBuilder} = require('../lib/CompactDictionaryBuilder.js')
 const fs = require('fs');
-const path = require('path');
 const readline = require('readline');
 
 if (process.argv.length <= 3) {
@@ -35,5 +33,5 @@ rl.on('line', (line)=>{
     dict.set(key, value);
 }).on('close', () => {
     const ab = CompactDictionaryBuilder.build(dict);
-    fs.writeFileSync(ofilename, ab);
+    fs.writeFileSync(ofilename, Buffer.from(ab));
 })

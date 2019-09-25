@@ -4,7 +4,7 @@ import { BitVector } from "./BitVector";
 export class LOUDSTrieBuilder {
     static build(keys:string[], generatedIndexes: Uint32Array|undefined = undefined): LOUDSTrie {
         let memo: Uint32Array;
-        if (generatedIndexes == undefined) {
+        if (generatedIndexes === undefined) {
             memo = new Uint32Array(keys.length);
         } else if (generatedIndexes.length == keys.length) {
             memo = generatedIndexes!;
@@ -25,13 +25,8 @@ export class LOUDSTrieBuilder {
         }
         let offset = 0;
         let currentNode = 1;
-        let edges = "";
-        edges += '\0';
-        edges += '\0';
-        let childSizes = new Array<number>(128);
-        for (let i = 0; i < childSizes.length; i++) {
-            childSizes[i] = 0;
-        }
+        let edges = [0x30, 0x30]; // TODO: '0'で穴埋めを'\0'にするか、なくす
+        let childSizes = new Uint32Array(128);
         while (true) {
             let lastChar = 0;
             let lastParent = 0;
@@ -48,11 +43,13 @@ export class LOUDSTrieBuilder {
                 let currentParent = memo[i];
                 if (lastChar != currentChar || lastParent != currentParent) {
                     if (childSizes.length <= memo[i]) {
-                        childSizes.push(0);
+                        const tmp = new Uint32Array(childSizes.length * 2);
+                        tmp.set(childSizes, 0);
+                        childSizes = tmp;
                     }
                     childSizes[memo[i]]++;
                     currentNode++;
-                    edges += String.fromCharCode(currentChar);
+                    edges.push(currentChar);
                     lastChar = currentChar;
                     lastParent = currentParent;
                 }
@@ -74,7 +71,7 @@ export class LOUDSTrieBuilder {
             numOfChildren += childSizes[i];
         }
         let numOfNodes = currentNode;
-        let bitVectorWords = new Uint32Array((numOfChildren + numOfNodes + 63 + 1) >> 5);
+        let bitVectorWords = new Uint32Array(((numOfChildren + numOfNodes + 63 + 1) >> 6 )* 2);
         let bitVectorIndex = 1;
         bitVectorWords[0] = 1;
         for (let i = 1; i <= currentNode; i++) {
@@ -87,6 +84,6 @@ export class LOUDSTrieBuilder {
         }
 
         let bitVector = new BitVector(bitVectorWords, bitVectorIndex);
-        return new LOUDSTrie(bitVector, edges);
+        return new LOUDSTrie(bitVector, new Uint16Array(edges));
     }
 }

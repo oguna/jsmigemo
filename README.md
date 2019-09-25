@@ -82,8 +82,11 @@ queryメソッドはステートレスのため、複数のスレッドから同
 そのため、辞書ファイル `migemo-compact-dict` のライセンスはSKK辞書から継承しています。
 SKK辞書のライセンスについては、[SKK辞書配布ページ](http://openlab.ring.gr.jp/skk/wiki/wiki.cgi?page=SKK%BC%AD%BD%F1)をご覧ください。
 
-## シングルJSファイルとして出力
+## 辞書ファイルの作成
+
+KaoriYa氏配布のC/Migemoに含まれている `migemo-dict` を入力ファイルとする。
+以下のコマンドにより、 `migemo-compact-dict` に、サイズが最適化された辞書ファイルが生成される。
 
 ```
-node .\node_modules\webpack\bin\webpack.js
+node ./bin/jsmigemo-dict migemo-dict migemo-compact-dict
 ```

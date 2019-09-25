@@ -122,4 +122,16 @@ export class BitVector {
         }
         return ((this.words[pos >>> 5] >>> (pos & 31)) & 1) == 1;
     }
+
+    public toString() {
+        let s = "";
+        for (let i = 0; i < this.sizeInBits; i++) {
+            const bit = ((this.words[i >>> 6] >>> (i & 63)) & 1) == 1;
+            s += bit ? '1' : '0';
+            if ((i & 63) == 63) {
+                s += ' ';
+            }
+        }
+        return s;
+    }
 }
