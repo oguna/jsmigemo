@@ -29,20 +29,17 @@ export class BitVector {
     }
 
     rank(pos: number, b: boolean): number {
-        // TODO: optimize
         if (pos < 0 && this.sizeInBits <= pos) {
             throw new RangeError();
         }
         let count1 = this.sb[pos >>> 6] + this.lb[pos >>> 9];
-        let posInDWord = pos & 63;
+        const posInDWord = pos & 63;
         if (posInDWord >= 32) {
             count1 += bitCount(this.words[(pos >>> 5) & 0xFFFFFFFE]);
         }
-        for (let i = (pos & 0xFFFFFFE0); i < pos; i++) {
-            if (this.get(i)) {
-                count1 = count1 + 1;
-            }
-        }
+        const posInWord = pos & 31;
+        const mask = 0x7FFFFFFF >>> (31 - posInWord);
+        count1 += bitCount(this.words[pos >>> 5] & mask);
         return b ? count1 : (pos - count1);
     }
 
