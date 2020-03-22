@@ -1,6 +1,6 @@
 {
   "name": "jsmigemo",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "migemo on javascript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
