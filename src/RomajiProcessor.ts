@@ -451,7 +451,7 @@ export function romajiToHiraganaPredictively(romaji: string): RomajiPredictiveRe
             }
             end++;
         }
-        if (end > romaji.length && upper - lower != 1) {
+        if (end > romaji.length && upper - lower > 1) {
             let set = new Set<string>();
             for (let i = lower; i < upper; i++) {
                 let re = ROMAN_ENTRIES[i];
