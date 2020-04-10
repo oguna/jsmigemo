@@ -25,6 +25,7 @@ export class RegexGenerator {
 		this.endClass = endClass;
 		this.newline = newline;
 		this.root = null;
+		console.log(JSON.stringify(this));
 	}
 
 	static getDEFAULT(): RegexGenerator {

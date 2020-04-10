@@ -25,9 +25,7 @@ const fs = require('fs');
 let buffer = fs.readFileSync(path.join(migemo.migemo_module_path, '../../migemo-compact-dict'));
 let ab = new ArrayBuffer(buffer.length);
 let view = new Uint8Array(ab);
-for (var i = 0; i < buffer.length; ++i) {
-	view[i] = buffer[i];
-}
+buffer.copy(view);
 let dict = new migemo.CompactDictionary(ab);
 let m = new migemo.Migemo();
 m.setDict(dict);
