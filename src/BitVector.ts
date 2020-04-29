@@ -1,4 +1,4 @@
-import {bitCount, numberOfTrailingZeros} from "./utils";
+import { bitCount, numberOfTrailingZeros } from "./utils";
 const LB = 512;
 const SB = 64;
 export class BitVector {
@@ -72,12 +72,23 @@ export class BitVector {
     private lowerBoundBinarySearchLB(key: number, b: boolean): number {
         let high = this.lb.length;
         let low = -1;
-        while (high - low > 1) {
-            let mid = (high + low) >>> 1;
-            if ((b ? this.lb[mid] : 512 * mid - this.lb[mid]) < key) {
-                low = mid;
-            } else {
-                high = mid;
+        if (b) {
+            while (high - low > 1) {
+                let mid = (high + low) >>> 1;
+                if (this.lb[mid] < key) {
+                    low = mid;
+                } else {
+                    high = mid;
+                }
+            }
+        } else {
+            while (high - low > 1) {
+                let mid = (high + low) >>> 1;
+                if (512 * mid - this.lb[mid] < key) {
+                    low = mid;
+                } else {
+                    high = mid;
+                }
             }
         }
         return high;
@@ -86,12 +97,23 @@ export class BitVector {
     private lowerBoundBinarySearchSB(key: number, fromIndex: number, toIndex: number, b: boolean): number {
         let high = toIndex;
         let low = fromIndex - 1;
-        while (high - low > 1) {
-            let mid = (high + low) >>> 1;
-            if ((b ? this.sb[mid] : 64 * (mid & 7) - this.sb[mid]) < key) {
-                low = mid;
-            } else {
-                high = mid;
+        if (b) {
+            while (high - low > 1) {
+                let mid = (high + low) >>> 1;
+                if (this.sb[mid] < key) {
+                    low = mid;
+                } else {
+                    high = mid;
+                }
+            }
+        } else {
+            while (high - low > 1) {
+                let mid = (high + low) >>> 1;
+                if (64 * (mid & 7) - this.sb[mid] < key) {
+                    low = mid;
+                } else {
+                    high = mid;
+                }
             }
         }
         return high;
@@ -99,7 +121,7 @@ export class BitVector {
 
     nextClearBit(fromIndex: number): number {
         let u = fromIndex >> 5;
-        let word = ~this.words[u] & (0xffffffff  << fromIndex);
+        let word = ~this.words[u] & (0xffffffff << fromIndex);
         while (true) {
             if (word != 0)
                 return (u * 32) + numberOfTrailingZeros(word);
