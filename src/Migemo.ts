@@ -1,7 +1,7 @@
 import { CompactDictionary } from "./CompactDictionary";
-import { RegexGenerator } from "./RegexGenerator";
 import { romajiToHiraganaPredictively } from "./RomajiProcessor";
 import {zen2han_conv, han2zen_conv, hira2kata_conv} from "./CharacterConverter";
+import { TernaryRegexGenerator } from "./TernaryRegexGenerator";
 export class Migemo {
     dict: CompactDictionary | null;
     rxop: Array<string> | null;
@@ -10,7 +10,7 @@ export class Migemo {
         this.rxop = null;
     }
     queryAWord(word: string): string {
-        let generator = this.rxop == null ? RegexGenerator.getDEFAULT() : new RegexGenerator(this.rxop[0], this.rxop[1], this.rxop[2], this.rxop[3], this.rxop[4], this.rxop[5]);
+        let generator = this.rxop == null ? TernaryRegexGenerator.getDEFAULT() : new TernaryRegexGenerator(this.rxop[0], this.rxop[1], this.rxop[2], this.rxop[3], this.rxop[4], this.rxop[5]);
         // query自信はもちろん候補に加える
         generator.add(word);
         // queryそのものでの辞書引き
