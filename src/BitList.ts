@@ -12,9 +12,7 @@ export class BitList {
     }
     add(value: boolean) {
         if (this.words.length < (this.size + 1 + 31) >> 5) {
-            let newWords = new Uint32Array(this.words.length * 2)
-            newWords.set(this.words, 0)
-            this.words = newWords
+            this.words = new Uint32Array(this.words.buffer, 0, this.words.length * 2)
         }
         this.set(this.size, value)
         this.size++
@@ -25,9 +23,9 @@ export class BitList {
             throw new Error()
         }
         if (value) {
-            this.words[pos>>5] |= 1 << (pos & 31)
+            this.words[pos >> 5] |= 1 << (pos & 31)
         } else {
-            this.words[pos>>5] &= ~(1 << (pos & 31))
+            this.words[pos >> 5] &= ~(1 << (pos & 31))
         }
     }
 

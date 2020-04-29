@@ -11,11 +11,11 @@ describe('LOUDSTrieBuilder', function () {
             words.push('box');
             words.push('dad');
             words.push('dance');
-            let trie = LOUDSTrieBuilder.build(words);
+            let trie = LOUDSTrieBuilder.build(words)[0];
             assert.equal(trie.get('box'), 10);
             assert.equal(trie.bitVector.words.toString(), Uint32Array.from([1145789805, 0]).toString());
             assert.equal(trie.bitVector.sizeInBits, 32);
-            assert.equal(trie.edges.join(), [48, 48, 98, 100, 97, 111, 97, 98, 100, 110, 120, 100, 110, 121,107, 99, 101].toString())
+            assert.equal(trie.edges.join(), [32, 32, 98, 100, 97, 111, 97, 98, 100, 110, 120, 100, 110, 121,107, 99, 101].toString())
         });
         it('tiny2', function () {
             let words = new Array<string>();
@@ -23,7 +23,7 @@ describe('LOUDSTrieBuilder', function () {
             words.push('aa');
             words.push('ab');
             words.push('bb');
-            let trie = LOUDSTrieBuilder.build(words);
+            let trie = LOUDSTrieBuilder.build(words)[0];
             assert.equal(trie.get(""), 1);
             assert.equal(trie.get("a"), 2);
             assert.equal(trie.get("b"), 3);
@@ -34,7 +34,7 @@ describe('LOUDSTrieBuilder', function () {
             assert.equal(trie.get("c"), -1);
             assert.equal(trie.bitVector.words.join(), [365, 0].join());
             assert.equal(trie.bitVector.sizeInBits, 12);
-            assert.equal(trie.edges.join(), [48, 48, 97, 98, 97, 98, 98].join())
+            assert.equal(trie.edges.join(), [32, 32, 97, 98, 97, 98, 98].join())
         });
     });
 });

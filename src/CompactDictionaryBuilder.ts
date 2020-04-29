@@ -19,8 +19,7 @@ export class CompactDictionaryBuilder {
 
         // build key trie
         const keys = Array.from(dict.keys()).sort();
-        const generatedKeyIndex = new Uint32Array(keys.length);
-        const keyTrie = LOUDSTrieBuilder.build(keys, generatedKeyIndex);
+        const keyTrie = LOUDSTrieBuilder.build(keys)[0];
 
         // build value trie
         const valuesSet = new Set<string>();
@@ -30,7 +29,7 @@ export class CompactDictionaryBuilder {
             }
         }
         const values = Array.from(valuesSet.values()).sort();
-        const valueTrie = LOUDSTrieBuilder.build(values);
+        const valueTrie = LOUDSTrieBuilder.build(values)[0];
 
         // build trie mapping
         let mappingCount = 0;
