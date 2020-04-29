@@ -100,7 +100,7 @@ export class CompactDictionary {
     }
 
     *search(key: string): IterableIterator<string> {
-        let keyIndex = this.keyTrie.get(key);
+        let keyIndex = this.keyTrie.lookup(key);
         if (keyIndex != -1 && this.hasMappingBitList.get(keyIndex)) {
             let valueStartPos = this.mappingBitVector.select(keyIndex, false);
             let valueEndPos = this.mappingBitVector.nextClearBit(valueStartPos + 1);
@@ -109,7 +109,7 @@ export class CompactDictionary {
                 let offset = this.mappingBitVector.rank(valueStartPos, false);
                 let result = new Array<string>(size);
                 for (let i = 0; i < result.length; i++) {
-                    yield this.valueTrie.getKey(this.mapping[valueStartPos - offset + i]);
+                    yield this.valueTrie.reverseLookup(this.mapping[valueStartPos - offset + i]);
                 }
                 return result;
             }
@@ -117,16 +117,16 @@ export class CompactDictionary {
     }
 
     *predictiveSearch(key: string): IterableIterator<string> {
-        let keyIndex = this.keyTrie.get(key);
+        let keyIndex = this.keyTrie.lookup(key);
         if (keyIndex > 1) {
-            for (let i of this.keyTrie.iterator(keyIndex)) {
+            for (let i of this.keyTrie.predictiveSearch(keyIndex)) {
                 if (this.hasMappingBitList.get(i)) {
                     let valueStartPos = this.mappingBitVector.select(i, false);
                     let valueEndPos = this.mappingBitVector.nextClearBit(valueStartPos + 1);
                     let size = valueEndPos - valueStartPos - 1;
                     let offset = this.mappingBitVector.rank(valueStartPos, false);
                     for (let j = 0; j < size; j++) {
-                        yield this.valueTrie.getKey(this.mapping[valueStartPos - offset + j]);
+                        yield this.valueTrie.reverseLookup(this.mapping[valueStartPos - offset + j]);
                     }
                 }
             }

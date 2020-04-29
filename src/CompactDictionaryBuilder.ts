@@ -41,13 +41,13 @@ export class CompactDictionaryBuilder {
         const mappingBitSet = new Array<boolean>(keyTrie.size() + mappingCount); 
         let mappingBitSetIndex = 0;
         for (let i = 1; i <= keyTrie.size(); i++) {
-            const key = keyTrie.getKey(i);
+            const key = keyTrie.reverseLookup(i);
             mappingBitSet[mappingBitSetIndex++] = false;
             const value = dict.get(key);
             if (value !== undefined) {
                 for (let j = 0; j < value.length; j++) {
                     mappingBitSet[mappingBitSetIndex++] = true;
-                    mapping[mappingIndex++] = valueTrie.get(value[j]);
+                    mapping[mappingIndex++] = valueTrie.lookup(value[j]);
                 }
             }
         } 

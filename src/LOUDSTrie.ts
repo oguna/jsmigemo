@@ -10,7 +10,7 @@ export class LOUDSTrie {
         this.edges = edges;
     }
 
-    getKey(index: number): string {
+    reverseLookup(index: number): string {
         if (index <= 0 || this.edges.length <= index) {
             throw new RangeError();
         }
@@ -47,7 +47,7 @@ export class LOUDSTrie {
         return result >= 0 ? result : -1;
     }
 
-    get(key: string) {
+    lookup(key: string): number {
         let nodeIndex = 1;
         for (let i = 0; i < key.length; i++) {
             let c = key.charCodeAt(i);
@@ -59,7 +59,7 @@ export class LOUDSTrie {
         return (nodeIndex >= 0) ? nodeIndex : -1;
     }
 
-    *iterator(index: number): IterableIterator<number> {
+    *predictiveSearch(index: number): IterableIterator<number> {
         yield index;
         let child = this.firstChild(index);
         if (child == -1) {
@@ -67,7 +67,7 @@ export class LOUDSTrie {
         }
         let childPos = this.bitVector.select(child, true);
         while (this.bitVector.get(childPos)) {
-            yield *this.iterator(child);
+            yield *this.predictiveSearch(child);
             child++;
             childPos++;
         }
