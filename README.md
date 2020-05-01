@@ -69,11 +69,14 @@ var rowregex = migemo.query(queryInputElement.value);
 
 queryメソッドはステートレスのため、複数のスレッドから同時に呼び出すことができます。
 
-## TODO
-- 辞書ファイルの生成スクリプト
-- 辞書ファイルを他の辞書（kuromoji-ipadic-neologdとか）から生成する
-- 処理の高速化
-- サンプル: Promise & AbortControllerによる処理のキャンセル
+## 辞書ファイルの生成
+
+```shell
+> node  bin/jsmigemo-dict.js <text-dict-file> <compact-dict-file>
+```
+
+`<text-dict-file>` は、C/Miemoで使われているテキスト形式の辞書ファイルです。
+`<compact-dict-file>` は、出力ファイル名です。
 
 ## ライセンス
 本ライブラリに付属の辞書ファイルは、SKK辞書から生成されています。
