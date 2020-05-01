@@ -1,5 +1,6 @@
 import { LOUDSTrieBuilder } from "./LOUDSTrieBuilder";
 import { CompactHiraganaString } from "./CompactHiraganaString";
+import { BitList } from "./BitList";
 
 export class CompactDictionaryBuilder {
     public static build(dict: Map<string, string[]>): ArrayBuffer {
@@ -38,24 +39,24 @@ export class CompactDictionaryBuilder {
         }
         const mapping = new Uint32Array(mappingCount);
         let mappingIndex = 0;
-        const mappingBitSet = new Array<boolean>(keyTrie.size() + mappingCount); 
-        let mappingBitSetIndex = 0;
+        let mappingBitList = new BitList()
         for (let i = 1; i <= keyTrie.size(); i++) {
-            const key = keyTrie.reverseLookup(i);
-            mappingBitSet[mappingBitSetIndex++] = false;
-            const value = dict.get(key);
-            if (value !== undefined) {
-                for (let j = 0; j < value.length; j++) {
-                    mappingBitSet[mappingBitSetIndex++] = true;
-                    mapping[mappingIndex++] = valueTrie.lookup(value[j]);
+            let key = keyTrie.reverseLookup(i)
+            mappingBitList.add(false)
+            let values = dict.get(key)
+            if (values != undefined) {
+                for (let j = 0; j < values.length; j++) {
+                    mappingBitList.add(true)
+                    mapping[mappingIndex] = valueTrie.lookup(values[j])
+                    mappingIndex++
                 }
             }
-        } 
+        }
 
         // calculate output size
         const keyTrieDataSize = 8 + keyTrie.edges.length + ((keyTrie.bitVector.size() + 63) >>> 6) * 8;
         const valueTrieDataSize = 8 + valueTrie.edges.length * 2 + ((valueTrie.bitVector.size() + 63) >>> 6) * 8;
-        const mappingDataSize = 8 + ((mappingBitSet.length + 63) >>> 6) * 8 + mapping.length * 4;
+        const mappingDataSize = 8 + ((mappingBitList.size + 63) >>> 6) * 8 + mapping.length * 4;
         const outputDataSize = keyTrieDataSize + valueTrieDataSize + mappingDataSize;
 
         // ready output
@@ -99,24 +100,20 @@ export class CompactDictionaryBuilder {
         }
         
         // output mapping
-        dataView.setInt32(dataViewIndex, mappingBitSetIndex);
+        dataView.setInt32(dataViewIndex, mappingBitList.size);
         dataViewIndex += 4;
-        const mappingWords = this.bitSetToIntArray(mappingBitSet);
-        for (let i = 0; i < (mappingWords.length + 1) >> 1; i++) {
-            dataView.setUint32(dataViewIndex, mappingWords[i * 2 + 1]);
+        const mappingWordsLen = (mappingBitList.size + 63) >> 6;
+        for (let i = 0; i < mappingWordsLen; i++) {
+            dataView.setUint32(dataViewIndex, mappingBitList.words[i * 2 + 1]);
             dataViewIndex += 4;
-            dataView.setUint32(dataViewIndex, mappingWords[i * 2]);
+            dataView.setUint32(dataViewIndex, mappingBitList.words[i * 2]);
             dataViewIndex += 4;
         }
+        // TODO: padding to 64bit words
         dataView.setInt32(dataViewIndex, mapping.length);
         dataViewIndex += 4;
         for (let i = 0; i < mapping.length; i++) {
             dataView.setUint32(dataViewIndex, mapping[i]);
-            dataViewIndex += 4;
-        }
-        // padding to 64bit words
-        if (mapping.length % 2 === 1) {
-            dataView.setUint32(dataViewIndex, 0);
             dataViewIndex += 4;
         }
 
@@ -126,14 +123,5 @@ export class CompactDictionaryBuilder {
         }
 
         return arrayBuffer;
-    }
-
-    private static bitSetToIntArray(bitSet: boolean[]): Uint32Array {
-        const uint32Length = (bitSet.length + 31) >> 5;
-        const result = new Uint32Array(uint32Length);
-        for (let i = 0; i < bitSet.length; i++) {
-            result[i >>> 5] |= (bitSet[i] ? 1 : 0) << (i & 31);
-        }
-        return result;
     }
 }

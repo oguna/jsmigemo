@@ -57,7 +57,7 @@ export class LOUDSTrieBuilder {
             }
             cursor++
         }
-        let bitVectorWords = new Uint32Array(louds.words.buffer, 0, (louds.size + 63) >> 5)
+        let bitVectorWords = new Uint32Array(louds.words.buffer, 0, ((louds.size + 63) >> 6) * 2)
         let bitVector = new BitVector(bitVectorWords, louds.size)
         let uint16Edges = new Uint16Array(edges.length)
         for (let i = 0; i< edges.length; i++) {

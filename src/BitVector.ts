@@ -7,8 +7,9 @@ export class BitVector {
     lb: Uint32Array;
     sb: Uint16Array;
     constructor(words: Uint32Array, sizeInBits: number) {
-        if ((sizeInBits + 63) >> 5 != words.length) {
-            throw new Error();
+        const expectedWordsLength = ((sizeInBits + 63) >> 6) * 2
+        if (expectedWordsLength != words.length) {
+            throw new Error(`expected: ${expectedWordsLength} actual: ${words.length}`);
         }
         this.words = words;
         this.sizeInBits = sizeInBits;

@@ -16,7 +16,7 @@ export class CompactDictionary {
         [this.valueTrie, offset] = CompactDictionary.readTrie(dv, offset, false);
         let mappingBitVectorSize = dv.getUint32(offset);
         offset += 4;
-        let mappingBitVectorWords = new Uint32Array(Math.floor((mappingBitVectorSize + 63) / 64) * 2);
+        let mappingBitVectorWords = new Uint32Array(((mappingBitVectorSize + 63) >> 6) * 2);
         for (let i = 0; i < mappingBitVectorWords.length >> 1; i++) {
             mappingBitVectorWords[i * 2 + 1] = dv.getUint32(offset);
             offset += 4;
@@ -54,7 +54,7 @@ export class CompactDictionary {
         }
         let keyTrieBitVectorSize = dv.getUint32(offset);
         offset += 4;
-        let keyTrieBitVectorWords = new Uint32Array(Math.floor((keyTrieBitVectorSize + 63) / 64) * 2);
+        let keyTrieBitVectorWords = new Uint32Array(((keyTrieBitVectorSize + 63) >> 6) * 2);
         for (let i = 0; i < keyTrieBitVectorWords.length >>> 1; i++) {
             keyTrieBitVectorWords[i * 2 + 1] = dv.getUint32(offset);
             offset += 4;
