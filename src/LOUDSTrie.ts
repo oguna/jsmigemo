@@ -1,5 +1,5 @@
-import {binarySearchUint16} from "./utils";
-import {BitVector} from "./BitVector";
+import { binarySearchUint16 } from "./utils";
+import { BitVector } from "./BitVector";
 
 export class LOUDSTrie {
     bitVector: BitVector;
@@ -15,7 +15,7 @@ export class LOUDSTrie {
             throw new RangeError();
         }
         let sb = new Array<number>();
-        while (index > 1) { 
+        while (index > 1) {
             sb.push(this.edges[index]);
             index = this.parent(index);
         }
@@ -54,22 +54,20 @@ export class LOUDSTrie {
             nodeIndex = this.traverse(nodeIndex, c);
             if (nodeIndex == -1) {
                 break;
-           }
+            }
         }
         return (nodeIndex >= 0) ? nodeIndex : -1;
     }
 
     *predictiveSearch(index: number): IterableIterator<number> {
-        yield index;
-        let child = this.firstChild(index);
-        if (child == -1) {
-            return;
-        }
-        let childPos = this.bitVector.select(child, true);
-        while (this.bitVector.get(childPos)) {
-            yield *this.predictiveSearch(child);
-            child++;
-            childPos++;
+        let lower = index
+        let upper = index + 1
+        while (upper - lower > 0) {
+            for (let i = lower; i < upper; i++) {
+                yield i
+            }
+            lower = this.bitVector.rank(this.bitVector.select(lower, false) + 1, true) + 1
+            upper = this.bitVector.rank(this.bitVector.select(upper, false) + 1, true) + 1
         }
     }
 
