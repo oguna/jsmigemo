@@ -1,7 +1,7 @@
 import { CompactDictionary } from "./CompactDictionary";
-import { romajiToHiraganaPredictively } from "./RomajiProcessor";
 import {zen2han_conv, han2zen_conv, hira2kata_conv} from "./CharacterConverter";
 import { TernaryRegexGenerator } from "./TernaryRegexGenerator";
+import { RomajiProcessor2 } from "./RomajiProcessor2";
 export class Migemo {
     dict: CompactDictionary | null;
     rxop: Array<string> | null;
@@ -28,9 +28,10 @@ export class Migemo {
         generator.add(han);
 
         // 平仮名、カタカナ、及びそれによる辞書引き追加
-        let hiraganaResult = romajiToHiraganaPredictively(lower);
-        for (let a of hiraganaResult.predictiveSuffixes) {
-            let hira = hiraganaResult.estaglishedHiragana + a;
+        let processor = RomajiProcessor2.buildProcessor();
+        let hiraganaResult = processor.romajiToHiraganaPredictively(lower);
+        for (let a of hiraganaResult.suffixes) {
+            let hira = hiraganaResult.prefix + a;
             generator.add(hira);
             // 平仮名による辞書引き
             if (this.dict != null) {
