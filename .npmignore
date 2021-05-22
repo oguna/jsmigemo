@@ -2,7 +2,6 @@
 .github/
 test/
 src/
-dist/
 .travis.yml
 tsconfig.json
 package-lock.json
