@@ -23,6 +23,6 @@ describe('RomajiProcessor2', function () {
         const processor = RomajiProcessor2.buildProcessor();
         const a = processor.romajiToHiraganaPredictively("saky");
         assert.equal(a.prefix, "さ");
-        assert.containsAllKeys(a.suffixes, ["きゃ", "きぃ", "きぇ", "きゅ", "きょ"]);
+        assert.deepEqual(a.suffixes, ["きゃ", "きぇ", "きぃ", "きょ", "きゅ"]);
     });
 });

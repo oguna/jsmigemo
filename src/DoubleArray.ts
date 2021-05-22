@@ -72,7 +72,7 @@ export class DoubleArray {
                 return;
             }
             if (this.check[m] == n) {
-                this.visitRecursive(m);
+                yield *this.visitRecursive(m);
             }
         }
     }

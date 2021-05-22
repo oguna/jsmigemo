@@ -36,7 +36,7 @@ export class RomajiProcessor2 {
     public romajiToHiragana(romaji: string): string {
         let buffer = "";
         let cursor = 0;
-        while (cursor < romajiToHiragana.length) {
+        while (cursor < romaji.length) {
             let longestNode = -1
             let length = -1
             for (let i of this.trie.commonPrefixSearch(romaji.substr(cursor))) {

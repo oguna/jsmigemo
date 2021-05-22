@@ -40,7 +40,7 @@ describe('DoubleArray', function () {
         const actual1 = Array.from(trie.predictiveSearch("ab"));
         assert.deepEqual(actual1, [5]);
         const actual2 = Array.from(trie.predictiveSearch("a"));
-        assert.deepEqual(actual2, [1]);
+        assert.deepEqual(actual2, [1, 5, 6]);
     });
 
     it('commonPrefixSearch', function() {
