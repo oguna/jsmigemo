@@ -1,6 +1,6 @@
     export function binarySearch(a: number[], fromIndex: number, toIndex: number, key: number) {
-        var low = fromIndex;
-        var high = toIndex - 1;
+        let low = fromIndex;
+        let high = toIndex - 1;
         while (low <= high) {
             const mid = (low + high) >>> 1;
             const midVal = a[mid];
@@ -15,8 +15,8 @@
         return -(low + 1);
     }
     export function binarySearchUint16(a: Uint16Array, fromIndex: number, toIndex: number, key: number) {
-        var low = fromIndex;
-        var high = toIndex - 1;
+        let low = fromIndex;
+        let high = toIndex - 1;
         while (low <= high) {
             const mid = (low + high) >>> 1;
             const midVal = a[mid];
@@ -31,8 +31,8 @@
         return -(low + 1);
     }
     export function binarySearchString(a: string[], fromIndex: number, toIndex: number, key: string) {
-        var low = fromIndex;
-        var high = toIndex - 1;
+        let low = fromIndex;
+        let high = toIndex - 1;
         while (low <= high) {
             const mid = (low + high) >>> 1;
             const midVal = a[mid];

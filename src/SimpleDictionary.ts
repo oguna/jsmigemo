@@ -22,7 +22,7 @@ class SimpleDictionary {
             if (a[0] > b[0]) {
                 return 1;
             } else {
-                return -1
+                return -1;
             }
         });
         let keys = keyValuePairs.map((a) => a[0]);

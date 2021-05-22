@@ -10,8 +10,8 @@ export class CompactDictionaryBuilder {
             try {
                 CompactHiraganaString.encodeString(key);
             } catch (e) {
-                keysToRemove.push(key)
-                console.log("skipped the world: " + key)
+                keysToRemove.push(key);
+                console.log("skipped the world: " + key);
             }
         }
         for (const key of keysToRemove) {
@@ -39,16 +39,16 @@ export class CompactDictionaryBuilder {
         }
         const mapping = new Uint32Array(mappingCount);
         let mappingIndex = 0;
-        let mappingBitList = new BitList()
+        const mappingBitList = new BitList();
         for (let i = 1; i <= keyTrie.size(); i++) {
-            let key = keyTrie.reverseLookup(i)
-            mappingBitList.add(false)
-            let values = dict.get(key)
+            let key = keyTrie.reverseLookup(i);
+            mappingBitList.add(false);
+            let values = dict.get(key);
             if (values != undefined) {
                 for (let j = 0; j < values.length; j++) {
-                    mappingBitList.add(true)
-                    mapping[mappingIndex] = valueTrie.lookup(values[j])
-                    mappingIndex++
+                    mappingBitList.add(true);
+                    mapping[mappingIndex] = valueTrie.lookup(values[j]);
+                    mappingIndex++;
                 }
             }
         }

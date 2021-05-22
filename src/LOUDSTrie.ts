@@ -60,14 +60,14 @@ export class LOUDSTrie {
     }
 
     *predictiveSearch(index: number): IterableIterator<number> {
-        let lower = index
-        let upper = index + 1
+        let lower = index;
+        let upper = index + 1;
         while (upper - lower > 0) {
             for (let i = lower; i < upper; i++) {
-                yield i
+                yield i;
             }
-            lower = this.bitVector.rank(this.bitVector.select(lower, false) + 1, true) + 1
-            upper = this.bitVector.rank(this.bitVector.select(upper, false) + 1, true) + 1
+            lower = this.bitVector.rank(this.bitVector.select(lower, false) + 1, true) + 1;
+            upper = this.bitVector.rank(this.bitVector.select(upper, false) + 1, true) + 1;
         }
     }
 

@@ -1,5 +1,3 @@
-import { exception } from "console";
-
 export class DoubleArray {
     base: Int16Array;
     check: Int16Array;
@@ -30,11 +28,11 @@ export class DoubleArray {
         for (let i = 0; i < str.length; i++) {
             const c = this.charConverter(str.charCodeAt(i))
             if (c < 1) {
-                throw new Error()
+                throw new Error();
             }
             n = this.traverse(n, c);
             if (n == -1) {
-                return -1
+                return -1;
             }
         }
         return n;
@@ -46,7 +44,7 @@ export class DoubleArray {
         while (index != -1) {
             const lastIndex = index;
             if (offset == key.length) {
-                index = -1
+                index = -1;
             } else {
                 const c = this.charConverter(key.charCodeAt(offset));
                 index = this.traverse(index, c);
@@ -67,7 +65,7 @@ export class DoubleArray {
     public *visitRecursive(n: number): IterableIterator<number> {
         yield n;
         for (let i = 0; i < this.charSize; i++) {
-            const m = this.base[n] + i + 1
+            const m = this.base[n] + i + 1;
             if (m >= this.check.length) {
                 return;
             }

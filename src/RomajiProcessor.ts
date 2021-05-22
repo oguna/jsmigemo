@@ -13,8 +13,8 @@ class RomanEntry {
     static _calculateIndex(roman: string, start:number, end:number):number {
         let result = 0;
         for (let i = 0; i < 4; i++) {
-            let index = i + start;
-            let c = index < roman.length && index < end ? roman.charCodeAt(index) : 0;
+            const index = i + start;
+            const c = index < roman.length && index < end ? roman.charCodeAt(index) : 0;
             result |= c;
             if (i < 3) {
                 result <<= 8;
@@ -366,14 +366,14 @@ export function romajiToHiragana(romaji: string): string {
             let lower = 0;
             let upper = ROMAN_INDEXES.length;
             while (upper - lower > 1 && end <= romaji.length) {
-                let lowerKey = RomanEntry._calculateIndex(romaji, start, end);
+                const lowerKey = RomanEntry._calculateIndex(romaji, start, end);
                 lower = binarySearch(ROMAN_INDEXES, lower, upper, lowerKey);
                 if (lower >= 0) {
                     lastFound = lower;
                 } else {
                     lower = -lower - 1;
                 }
-                let upperKey = lowerKey + (1 << (32 - 8 * (end - start)));
+                const upperKey = lowerKey + (1 << (32 - 8 * (end - start)));
                 upper = binarySearch(ROMAN_INDEXES, lower, upper, upperKey);
                 if (upper < 0) {
                     upper = -upper - 1;
@@ -381,7 +381,7 @@ export function romajiToHiragana(romaji: string): string {
                 end++;
             }
             if (lastFound >= 0) {
-                let entry = ROMAN_ENTRIES[lastFound];
+                const entry = ROMAN_ENTRIES[lastFound];
                 hiragana = hiragana + entry.hiragana;
                 start = start + entry.roman.length - entry.remain;
                 end = start + 1;
@@ -402,14 +402,14 @@ export function findRomanEntryPredicatively(roman: string, offset: number): Set<
         if (roman.length <= offset + i) {
             break;
         }
-        let startKey = RomanEntry._calculateIndex(roman, offset, offset + i + 1);
+        const startKey = RomanEntry._calculateIndex(roman, offset, offset + i + 1);
         startIndex = binarySearch(ROMAN_INDEXES, startIndex, endIndex, startKey);
         if (startIndex >= 0) {
             lastFound = startIndex;
         } else {
             startIndex = -startIndex - 1;
         }
-        let endKey = startKey + (1 << (24 - 8 * i));
+        const endKey = startKey + (1 << (24 - 8 * i));
         endIndex = binarySearch(ROMAN_INDEXES, startIndex, endIndex, endKey);
         if (endIndex < 0) {
             endIndex = -endIndex - 1;
@@ -418,7 +418,7 @@ export function findRomanEntryPredicatively(roman: string, offset: number): Set<
             return new Set([ROMAN_ENTRIES[startIndex]]);
         }
     }
-    let result = new Set<RomanEntry>();
+    const result = new Set<RomanEntry>();
     for (let i = startIndex; i < endIndex; i++) {
         result.add(ROMAN_ENTRIES[i]);
     }
@@ -437,14 +437,14 @@ export function romajiToHiraganaPredictively(romaji: string): RomajiPredictiveRe
         let lower = 0;
         let upper = ROMAN_INDEXES.length;
         while (upper - lower > 1 && end <= romaji.length) {
-            let lowerKey = RomanEntry._calculateIndex(romaji, start, end);
+            const lowerKey = RomanEntry._calculateIndex(romaji, start, end);
             lower = binarySearch(ROMAN_INDEXES, lower, upper, lowerKey);
             if (lower >= 0) {
                 lastFound = lower;
             } else {
                 lower = -lower - 1;
             }
-            let upperKey = lowerKey + (1 << (32 - 8 * (end - start)));
+            const upperKey = lowerKey + (1 << (32 - 8 * (end - start)));
             upper = binarySearch(ROMAN_INDEXES, lower, upper, upperKey);
             if (upper < 0) {
                 upper = -upper - 1;
@@ -452,9 +452,9 @@ export function romajiToHiraganaPredictively(romaji: string): RomajiPredictiveRe
             end++;
         }
         if (end > romaji.length && upper - lower > 1) {
-            let set = new Set<string>();
+            const set = new Set<string>();
             for (let i = lower; i < upper; i++) {
-                let re = ROMAN_ENTRIES[i];
+                const re = ROMAN_ENTRIES[i];
                 if (re.remain > 0) {
                     let set2 = findRomanEntryPredicatively(romaji, end - 1 - re.remain);
                     for (let re2 of set2) {
@@ -469,7 +469,7 @@ export function romajiToHiraganaPredictively(romaji: string): RomajiPredictiveRe
             return new RomajiPredictiveResult(hiragana.toString(), set);
         }
         if (lastFound >= 0) {
-            let entry = ROMAN_ENTRIES[lastFound];
+            const entry = ROMAN_ENTRIES[lastFound];
             hiragana = hiragana + entry.hiragana;
             start = start + entry.roman.length - entry.remain;
             end = start + 1;

@@ -1,13 +1,11 @@
 import { bitCount, numberOfTrailingZeros } from "./utils";
-const LB = 512;
-const SB = 64;
 export class BitVector {
     words: Uint32Array;
     sizeInBits: number;
     lb: Uint32Array;
     sb: Uint16Array;
     constructor(words: Uint32Array, sizeInBits: number) {
-        const expectedWordsLength = ((sizeInBits + 63) >> 6) * 2
+        const expectedWordsLength = ((sizeInBits + 63) >> 6) * 2;
         if (expectedWordsLength != words.length) {
             throw new Error(`expected: ${expectedWordsLength} actual: ${words.length}`);
         }
@@ -18,11 +16,11 @@ export class BitVector {
         let sum = 0;
         let sumInLb = 0;
         for (let i = 0; i < this.sb.length; i++) {
-            let bc = i < (this.words.length >>> 1) ? bitCount(this.words[i * 2]) + bitCount(this.words[i * 2 + 1]) : 0;
+            const bc = i < (this.words.length >>> 1) ? bitCount(this.words[i * 2]) + bitCount(this.words[i * 2 + 1]) : 0;
             this.sb[i] = sumInLb;
             sumInLb += bc;
             if ((i & 7) == 7) {
-                this.lb[i >> 3] = sum;
+                this.lb[i >>> 3] = sum;
                 sum += sumInLb;
                 sumInLb = 0;
             }
@@ -45,9 +43,9 @@ export class BitVector {
     }
 
     select(count: number, b: boolean): number {
-        let lbIndex = this.lowerBoundBinarySearchLB(count, b) - 1;
-        let countInLb = count - (b ? this.lb[lbIndex] : (512 * lbIndex - this.lb[lbIndex]));
-        let sbIndex = this.lowerBoundBinarySearchSB(countInLb, lbIndex * 8, lbIndex * 8 + 8, b) - 1;
+        const lbIndex = this.lowerBoundBinarySearchLB(count, b) - 1;
+        const countInLb = count - (b ? this.lb[lbIndex] : (512 * lbIndex - this.lb[lbIndex]));
+        const sbIndex = this.lowerBoundBinarySearchSB(countInLb, lbIndex * 8, lbIndex * 8 + 8, b) - 1;
         let countInSb = countInLb - (b ? this.sb[sbIndex] : (64 * (sbIndex % 8) - this.sb[sbIndex]));
         let wordL = this.words[sbIndex * 2];
         let wordU = this.words[sbIndex * 2 + 1];
@@ -55,7 +53,7 @@ export class BitVector {
             wordL = ~wordL;
             wordU = ~wordU;
         }
-        let lowerBitCount = bitCount(wordL);
+        const lowerBitCount = bitCount(wordL);
         let i = 0;
         if (countInSb > lowerBitCount) {
             wordL = wordU;
@@ -100,7 +98,7 @@ export class BitVector {
         let low = fromIndex - 1;
         if (b) {
             while (high - low > 1) {
-                let mid = (high + low) >>> 1;
+                const mid = (high + low) >>> 1;
                 if (this.sb[mid] < key) {
                     low = mid;
                 } else {
@@ -109,7 +107,7 @@ export class BitVector {
             }
         } else {
             while (high - low > 1) {
-                let mid = (high + low) >>> 1;
+                const mid = (high + low) >>> 1;
                 if (64 * (mid & 7) - this.sb[mid] < key) {
                     low = mid;
                 } else {
