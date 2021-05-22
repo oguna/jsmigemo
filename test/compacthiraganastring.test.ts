@@ -1,9 +1,7 @@
-import { describe, it } from "mocha";
-import { assert } from "chai"
 import { CompactHiraganaString } from "../src/CompactHiraganaString";
 
-describe('CompactHiraganaString', function () {
-    it('constructor', function () {
+describe('CompactHiraganaString', () => {
+    it('constructor', () => {
         const hiragana = "ぁあぃいぅうぇえぉおかがきぎく" +
         "ぐけげこごさざしじすずせぜそぞた" +
         "だちぢっつづてでとどなにぬねのは" +
@@ -12,7 +10,7 @@ describe('CompactHiraganaString', function () {
         "ゐゑをんゔゕゖ";
         const encoded = CompactHiraganaString.encodeString(hiragana);
         const decoded = CompactHiraganaString.decodeBytes(encoded);
-        assert.equal(decoded, hiragana);
-        assert.equal(encoded.length, hiragana.length);
+        expect(decoded).toBe(hiragana);
+        expect(encoded.length).toBe(hiragana.length);
     });
 });

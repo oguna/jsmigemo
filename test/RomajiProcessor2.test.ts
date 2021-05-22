@@ -1,28 +1,26 @@
-import { describe, it } from "mocha";
-import { assert } from "chai"
 import { RomajiProcessor2 } from "../src/RomajiProcessor2";
 
-describe('RomajiProcessor2', function () {
-    it('romajiToHiragana', function () {
+describe('RomajiProcessor2', () => {
+    it('romajiToHiragana', () => {
         const processor = RomajiProcessor2.buildProcessor();
-        assert.equal(processor.romajiToHiragana("ro-maji"), "ろーまじ");
-        assert.equal(processor.romajiToHiragana("atti"), "あっち");
-        assert.equal(processor.romajiToHiragana("att"), "あっt");
-        assert.equal(processor.romajiToHiragana("www"), "wっw");
-        assert.equal(processor.romajiToHiragana("kk"), "っk");
-        assert.equal(processor.romajiToHiragana("n"), "ん");
-        assert.equal(processor.romajiToHiragana("kensaku"), "けんさく");
+        expect(processor.romajiToHiragana("ro-maji")).toBe("ろーまじ");
+        expect(processor.romajiToHiragana("atti")).toBe("あっち");
+        expect(processor.romajiToHiragana("att")).toBe("あっt");
+        expect(processor.romajiToHiragana("www")).toBe("wっw");
+        expect(processor.romajiToHiragana("kk")).toBe("っk");
+        expect(processor.romajiToHiragana("n")).toBe("ん");
+        expect(processor.romajiToHiragana("kensaku")).toBe("けんさく");
     });
-    it('romajiToHiraganaPredictively_kiku', function () {
+    it('romajiToHiraganaPredictively_kiku', () => {
         const processor = RomajiProcessor2.buildProcessor();
         const a = processor.romajiToHiraganaPredictively("kiku");
-        assert.equal(a.prefix, "きく");
-        assert.deepEqual(a.suffixes, [""]);
+        expect(a.prefix).toBe("きく");
+        expect(a.suffixes).toStrictEqual([""]);
     });
-    it('romajiToHiraganaPredictively_saky', function () {
+    it('romajiToHiraganaPredictively_saky', () => {
         const processor = RomajiProcessor2.buildProcessor();
         const a = processor.romajiToHiraganaPredictively("saky");
-        assert.equal(a.prefix, "さ");
-        assert.deepEqual(a.suffixes, ["きゃ", "きぇ", "きぃ", "きょ", "きゅ"]);
+        expect(a.prefix).toBe("さ");
+        expect(a.suffixes).toStrictEqual(["きゃ", "きぇ", "きぃ", "きょ", "きゅ"]);
     });
 });

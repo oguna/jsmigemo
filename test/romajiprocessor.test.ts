@@ -1,42 +1,40 @@
-import { describe, it } from "mocha";
-import { assert } from "chai"
 import { romajiToHiragana, romajiToHiraganaPredictively } from "../src/RomajiProcessor";
 
-describe('RomajiProcessor', function () {
-  describe('#romajiToHiragana()', function () {
-    it('should return correct romaji', function () {
-      assert.equal("ろーまじ", romajiToHiragana("ro-maji"));
-      assert.equal("あっち", romajiToHiragana("atti"));
-      assert.equal("あっt", romajiToHiragana("att"));
-      assert.equal("wっw", romajiToHiragana("www"));
-      assert.equal("っk", romajiToHiragana("kk"));
-      assert.equal("ん", romajiToHiragana("n"));
-      assert.equal(romajiToHiragana("kensaku"), "けんさく");
+describe('RomajiProcessor', () => {
+  describe('#romajiToHiragana()', () => {
+    it('should return correct romaji', () => {
+      expect("ろーまじ").toBe( romajiToHiragana("ro-maji"));
+      expect("あっち").toBe( romajiToHiragana("atti"));
+      expect("あっt").toBe( romajiToHiragana("att"));
+      expect("wっw").toBe( romajiToHiragana("www"));
+      expect("っk").toBe( romajiToHiragana("kk"));
+      expect("ん").toBe( romajiToHiragana("n"));
+      expect(romajiToHiragana("kensaku")).toBe( "けんさく");
     });
   });
 
-  describe('#romajiToHiraganaPredictively', function () {
-    it('should return correct romaji and predictive suffix', function () {
-      let kiku = romajiToHiraganaPredictively("kiku");
-      assert.equal(kiku.estaglishedHiragana, "きく");
-      assert.containsAllKeys(kiku.predictiveSuffixes, [""]);
+  describe('#romajiToHiraganaPredictively', () => {
+    it('should return correct romaji and predictive suffix', () => {
+      const kiku = romajiToHiraganaPredictively("kiku");
+      expect(kiku.estaglishedHiragana).toBe("きく");
+      expect(kiku.predictiveSuffixes).toEqual(new Set<string>([""]));
 
-      let ky = romajiToHiraganaPredictively("ky");
-      assert.equal(ky.estaglishedHiragana, "");
-      assert.containsAllKeys(ky.predictiveSuffixes, ["きゃ", "きぃ", "きぇ", "きゅ", "きょ"]);
+      const ky = romajiToHiraganaPredictively("ky");
+      expect(ky.estaglishedHiragana).toBe("");
+      expect(ky.predictiveSuffixes).toEqual(new Set<string>(["きゃ", "きぃ", "きぇ", "きゅ", "きょ"]));
 
-      let kky = romajiToHiraganaPredictively("kky");
-      assert.equal(kky.estaglishedHiragana, "っ");
-      assert.containsAllKeys(kky.predictiveSuffixes, ["きゃ", "きぃ", "きぇ", "きゅ", "きょ"]);
+      const kky = romajiToHiraganaPredictively("kky");
+      expect(kky.estaglishedHiragana).toBe("っ");
+      expect(kky.predictiveSuffixes).toEqual(new Set<string>(["きゃ", "きぃ", "きぇ", "きゅ", "きょ"]));
 
-      let n = romajiToHiraganaPredictively("n");
-      assert.equal(n.estaglishedHiragana, "");
-      assert.containsAllKeys(n.predictiveSuffixes, ["ん", "な", "に", "ぬ", "ね", "の", "にゃ", "にゅ", "にょ"]);
-      assert.doesNotHaveAnyKeys(n.predictiveSuffixes, ["っ"]);
+      const n = romajiToHiraganaPredictively("n");
+      expect(n.estaglishedHiragana).toBe("");
+      expect(n.predictiveSuffixes).toEqual(new Set<string>(["ん", "な", "に", "ぬ", "ね", "の", "にぃ", "にぇ", "にゃ", "にゅ", "にょ"]));
+      expect(n.predictiveSuffixes).not.toContain("っ");
 
-      let denk = romajiToHiraganaPredictively("denk")
-      assert.equal(denk.estaglishedHiragana, "でん");
-      assert.include(denk.predictiveSuffixes, "か");
+      const denk = romajiToHiraganaPredictively("denk")
+      expect(denk.estaglishedHiragana).toBe("でん");
+      expect(denk.predictiveSuffixes).toContain("か");
     });
   })
 });
