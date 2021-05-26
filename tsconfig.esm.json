@@ -1,0 +1,9 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"target": "es6",
+		"module": "ESNext",
+		"outDir": "esm",
+		"moduleResolution": "node",
+	},
+}
