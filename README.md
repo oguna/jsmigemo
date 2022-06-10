@@ -22,12 +22,13 @@ PATTERN: (kensaku|けんさく|ケンサク|建策|憲[作冊]|検索|献策|研
 const migemo = require('jsmigemo');
 const path = require('path');
 const fs = require('fs');
-let buffer = fs.readFileSync(path.join(migemo.migemo_module_path, '../../migemo-compact-dict'));
-let ab = new ArrayBuffer(buffer.length);
-let view = new Uint8Array(ab);
+
+const buffer = fs.readFileSync(path.join(migemo.migemo_module_path, '../../migemo-compact-dict'));
+const ab = new ArrayBuffer(buffer.length);
+const view = new Uint8Array(ab);
 buffer.copy(view);
-let dict = new migemo.CompactDictionary(ab);
-let m = new migemo.Migemo();
+const dict = new migemo.CompactDictionary(ab);
+const m = new migemo.Migemo();
 m.setDict(dict);
 console.log(m.query('kensaku'));
 //=> (kensaku|けんさく|ケンサク|建策|憲[作冊]|検索|献策|研削|羂索|ｋｅｎｓａｋｕ|ｹﾝｻｸ)
@@ -46,12 +47,12 @@ jsmigemoを使うHTMLに次のタグを追加し、`jsmigemo.js` を読み込み
 次に、scriptタグ内で、辞書ファイルをサーバから読み込みます。
 
 ```js
-var cd;
-var req = new XMLHttpRequest();
+let cd;
+const req = new XMLHttpRequest();
 req.open("get", "migemo-compact-dict", true);
 req.responseType = "arraybuffer";
 req.onload = function () {
-	var ab = req.response;
+	const ab = req.response;
 	cd = new jsmigemo.CompactDictionary(ab);
 }
 req.send(null);
@@ -62,9 +63,9 @@ setDictメソッドで、先に読み込んだ辞書ファイルを指定しま�
 queryメソッドで、検索したい単語をローマ字で引数に与えると、その単語にヒットする正規表現が返ります。
 
 ```js
-var migemo = new jsmigemo.Migemo()
+const migemo = new jsmigemo.Migemo()
 migemo.setDict(cd);
-var rowregex = migemo.query(queryInputElement.value);
+const rowregex = migemo.query(queryInputElement.value);
 ```
 
 queryメソッドはステートレスのため、複数のスレッドから同時に呼び出すことができます。
@@ -84,14 +85,3 @@ queryメソッドはステートレスのため、複数のスレッドから同
 SKK辞書のライセンスについては、[SKK辞書配布ページ](http://openlab.ring.gr.jp/skk/wiki/wiki.cgi?page=SKK%BC%AD%BD%F1)をご覧ください。
 
 `migemo-compact-dict` 以外のファイルについては、MIT LICENSEのもとで配布します。
-
-## 辞書ファイルの作成
-
-**WIP**
-
-KaoriYa氏配布のC/Migemoに含まれている `migemo-dict` を入力ファイルとします。
-以下のコマンドにより、 `migemo-compact-dict` に、サイズが最適化された辞書ファイルが生成されます。
-
-```
-node ./bin/jsmigemo-dict migemo-dict migemo-compact-dict
-```
