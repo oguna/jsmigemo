@@ -149,7 +149,7 @@ export class TernaryRegexGenerator {
                 haschild++;
             }
         }
-        var nochild = brother - haschild;
+        const nochild = brother - haschild;
 
         if (brother > 1 && haschild > 0) {
             buf += this.beginGroup;

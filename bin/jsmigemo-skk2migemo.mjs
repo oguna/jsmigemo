@@ -3,40 +3,38 @@
 * jsmigemo-skk2migemo.js
 */
 
-const migemo = require('../dist/lib/index.js');
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+import fs from 'fs';
+import readline from 'readline';
 
 if (process.argv.length <= 2) {
     console.error("usage: jsmigemo-cli <input>");
     process.exit(1);
 }
 
-let filename = process.argv[2];
+const filename = process.argv[2];
 
 if (!fs.existsSync(filename)) {
     console.error("input file is not exist");
     process.exit(1);
 }
 
-let rs = fs.createReadStream(filename, 'utf8');
-let rl = readline.createInterface(rs, {});
-let dict = new Map();
+const rs = fs.createReadStream(filename, 'utf8');
+const rl = readline.createInterface(rs, {});
+const dict = new Map();
 rl.on('line', (line)=>{
     if (line.startsWith(";;")) {
        return; 
     }
-    let keyValues = line.split(' ', 2);
-    let key = keyValues[0];
-    let value = keyValues[1];
+    const keyValues = line.split(' ', 2);
+    const key = keyValues[0];
+    const value = keyValues[1];
     if (key.startsWith("<") || key.startsWith(">") || key.startsWith("?")) {
         return;
     }
     if (key.endsWith("<") || key.endsWith(">") || key.endsWith("?")) {
         return;
     }
-    let haveNumber = key.match("#");
+    const haveNumber = key.match("#");
     if (key.match("[a-z]$") && !key.match("^[ -~]+$")) {
         key = key.substr(0, key.length - 2); 
     }
@@ -53,7 +51,7 @@ rl.on('line', (line)=>{
     }
 }).on('close', () => {
 let outputContent = "";
-for (var [k,v] of dict.entries()) {
+for (const [k,v] of dict.entries()) {
     v = [...new Set(v)];
     outputContent += k + "\t" + v.join("\t") + "\n";
 }

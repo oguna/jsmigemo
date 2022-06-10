@@ -3,10 +3,10 @@
 * jsmigemo-cli.js
 */
 
-const migemo = require('../lib/index.js');
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+import migemo from '../lib/index.js';
+import fs from 'fs';
+import path from 'path';
+import readline from 'readline';
 
 function help(prgname) {
     const MIGEMO_ABOUT = "jsmigemo - Js/Migemo Library";
@@ -31,10 +31,10 @@ let mode_quiet = false;
 let mode_help = false;
 let file = path.join(migemo.migemo_module_path, '../migemo-compact-dict');
 let word = null;
-let prgname = process.argv[1];
+const prgname = process.argv[1];
 
 for (let i = 2; i < process.argv.length; i++) {
-    let arg = process.argv[i];
+    const arg = process.argv[i];
     switch (arg) {
         case '--vim':
         case '-v':
@@ -76,11 +76,8 @@ if (mode_help) {
     exit(0);
 }
 
-let buffer = fs.readFileSync(file);
-let ab = new ArrayBuffer(buffer.length);
-let view = new Uint8Array(ab);
-buffer.copy(view);
-let dict = new migemo.CompactDictionary(ab);
+const buffer = fs.readFileSync(file);
+const dict = new migemo.CompactDictionary(buffer.buffer);
 
 let rxop = ["|", "(", ")", "[", "]", ""];
 if (mode_vim) {
@@ -98,7 +95,7 @@ else if (mode_emacs) {
     }
 }
 
-let m = new migemo.Migemo(rxop);
+const m = new migemo.Migemo(rxop);
 m.setDict(dict);
 m.setRxop(rxop);
 
