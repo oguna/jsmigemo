@@ -24,10 +24,7 @@ const path = require('path');
 const fs = require('fs');
 
 const buffer = fs.readFileSync(path.join(migemo.migemo_module_path, '../../migemo-compact-dict'));
-const ab = new ArrayBuffer(buffer.length);
-const view = new Uint8Array(ab);
-buffer.copy(view);
-const dict = new migemo.CompactDictionary(ab);
+const dict = new migemo.CompactDictionary(buffer.buffer);
 const m = new migemo.Migemo();
 m.setDict(dict);
 console.log(m.query('kensaku'));
