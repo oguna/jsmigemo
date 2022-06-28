@@ -6,7 +6,7 @@
   "types": "dist/jsmigemo.d.ts",
   "module": "dist/jsmigemo.mjs",
   "browser": "dist/jsmigemo.js",
-  "bin": "bin/jsmigemo-cli.js",
+  "bin": "bin/jsmigemo-cli.mjs",
   "scripts": {
     "prepare": "npm run build && npm run dist",
     "build": "tsc",
