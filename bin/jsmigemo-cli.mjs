@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 /**
-* jsmigemo-cli.js
+* jsmigemo-cli.mjs
 */
 
-import migemo from '../lib/index.js';
+import { CompactDictionary, Migemo } from '../dist/jsmigemo.mjs';
 import fs from 'fs';
-import path from 'path';
 import readline from 'readline';
 
 function help(prgname) {
@@ -29,7 +28,7 @@ let mode_emacs = false;
 let mode_nonewline = false;
 let mode_quiet = false;
 let mode_help = false;
-let file = path.join(migemo.migemo_module_path, '../migemo-compact-dict');
+let file = new URL('../migemo-compact-dict', import.meta.url)
 let word = null;
 const prgname = process.argv[1];
 
@@ -77,7 +76,7 @@ if (mode_help) {
 }
 
 const buffer = fs.readFileSync(file);
-const dict = new migemo.CompactDictionary(buffer.buffer);
+const dict = new CompactDictionary(buffer.buffer);
 
 let rxop = ["|", "(", ")", "[", "]", ""];
 if (mode_vim) {
@@ -95,7 +94,7 @@ else if (mode_emacs) {
     }
 }
 
-const m = new migemo.Migemo(rxop);
+const m = new Migemo(rxop);
 m.setDict(dict);
 m.setRxop(rxop);
 

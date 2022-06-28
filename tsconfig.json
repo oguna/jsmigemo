@@ -1,11 +1,12 @@
 {
 	"compilerOptions": {
-		"target": "es6",
-		"module": "commonjs",
+		"target": "ES2020",
+		"module": "esnext",
 		"declaration": true,
 		"outDir": "lib",
 		"strict": true,
-		"sourceMap": true
+		"sourceMap": true,
+		"moduleResolution": "node",
 	},
-	"include": ["src/**/*.ts"]
+	"include": ["src/**/*.ts"],
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
-* jsmigemo-skk2migemo.js
+* jsmigemo-skk2migemo.mjs
 */
 
 import fs from 'fs';

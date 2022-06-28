@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
-* jsmigemo-cli.js
+* jsmigemo-cli.mjs
 */
 
-import { CompactDictionaryBuilder } from '../lib/CompactDictionaryBuilder.js';
+import { CompactDictionaryBuilder } from '../dist/jsmigemo.mjs';
 import fs from 'fs';
 import readline from 'readline';
 

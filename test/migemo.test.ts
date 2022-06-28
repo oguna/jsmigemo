@@ -1,5 +1,5 @@
 import { Migemo } from "../src/Migemo";
-import { CompactDictionary } from "../src";
+import { CompactDictionary } from "../src/CompactDictionary";
 import { readFileSync } from "fs";
 
 describe("migemo", () => {
