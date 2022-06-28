@@ -6,5 +6,6 @@ src/
 node_modules/
 tsconfig.json
 package-lock.json
-webpack.config.js
 migemo-dict
+jest.config.js
+rollup.config.js
