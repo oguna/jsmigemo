@@ -44,6 +44,9 @@ export class BitVector {
 
     select(count: number, b: boolean): number {
         const lbIndex = this.lowerBoundBinarySearchLB(count, b) - 1;
+        if (lbIndex == -1) {
+            return 0
+        }
         const countInLb = count - (b ? this.lb[lbIndex] : (512 * lbIndex - this.lb[lbIndex]));
         const sbIndex = this.lowerBoundBinarySearchSB(countInLb, lbIndex * 8, lbIndex * 8 + 8, b) - 1;
         let countInSb = countInLb - (b ? this.sb[sbIndex] : (64 * (sbIndex % 8) - this.sb[sbIndex]));

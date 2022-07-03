@@ -40,7 +40,7 @@ export class CompactDictionaryBuilder {
         const mapping = new Uint32Array(mappingCount);
         let mappingIndex = 0;
         const mappingBitList = new BitList();
-        for (let i = 1; i <= keyTrie.size(); i++) {
+        for (let i = 1; i <= keyTrie.size()+1; i++) {
             let key = keyTrie.reverseLookup(i);
             mappingBitList.add(false);
             let values = dict.get(key);

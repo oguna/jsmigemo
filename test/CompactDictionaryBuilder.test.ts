@@ -27,4 +27,30 @@ describe('CompactDictionaryBuilder', () => {
             })
         });
     });
+    describe('#bug1()', () => {
+    it('けんさく1', () => {
+        const dict = new Map<string, string[]>()
+        dict.set("けんさく", ["検索", "研削"])
+        const ab = CompactDictionaryBuilder.build(dict)
+        const cd = new CompactDictionary(ab)
+        const it = cd.search("けんさく")
+        expect(it.next().value).toBe("検索")
+        expect(it.next().value).toBe("研削")
+        expect(it.next().done).toBe(true)
+    });
+    it('けんさく2', () => {
+        const dict = new Map<string, string[]>()
+        dict.set("けんさく", ["検索", "研削"])
+        dict.set("けん", ["検"])
+        const ab = CompactDictionaryBuilder.build(dict)
+        const cd = new CompactDictionary(ab)
+        const it = cd.search("けんさく")
+        expect(it.next().value).toBe("検索")
+        expect(it.next().value).toBe("研削")
+        expect(it.next().done).toBe(true)
+        const it2 = cd.search("けん")
+        expect(it2.next().value).toBe("検")
+        expect(it2.next().done).toBe(true)
+    });
+  });
 });
