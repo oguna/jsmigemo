@@ -23,7 +23,7 @@ const migemo = require('jsmigemo');
 const path = require('path');
 const fs = require('fs');
 
-const buffer = fs.readFileSync(path.join(migemo.migemo_module_path, '../../migemo-compact-dict'));
+const buffer = fs.readFileSync('migemo-compact-dict');
 const dict = new migemo.CompactDictionary(buffer.buffer);
 const m = new migemo.Migemo();
 m.setDict(dict);
@@ -70,7 +70,7 @@ queryメソッドはステートレスのため、複数のスレッドから同
 ## 辞書ファイルの生成
 
 ```shell
-> node  bin/jsmigemo-dict.js <text-dict-file> <compact-dict-file>
+> node  bin/jsmigemo-dict.mjs <text-dict-file> <compact-dict-file>
 ```
 
 `<text-dict-file>` は、C/Miemoで使われているテキスト形式の辞書ファイルです。
