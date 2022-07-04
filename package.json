@@ -25,7 +25,7 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.3",
     "@types/jest": "^28.1.4",
-    "@types/node": "^16.11.42",
+    "@types/node": "^16.11.43",
     "jest": "^28.1.2",
     "rollup": "^2.75.7",
     "rollup-plugin-dts": "^4.2.2",
