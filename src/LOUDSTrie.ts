@@ -14,12 +14,12 @@ export class LOUDSTrie {
         if (index <= 0 || this.edges.length <= index) {
             throw new RangeError();
         }
-        let sb = new Array<number>();
+        const sb = new Array<number>();
         while (index > 1) {
             sb.push(this.edges[index]);
             index = this.parent(index);
         }
-        return sb.reverse().map(v => String.fromCharCode(v)).join('');
+        return String.fromCharCode(...sb.reverse())
     }
 
     parent(x: number): number {
@@ -27,7 +27,7 @@ export class LOUDSTrie {
     }
 
     firstChild(x: number): number {
-        let y = this.bitVector.select(x, false) + 1;
+        const y = this.bitVector.select(x, false) + 1;
         if (this.bitVector.get(y)) {
             return this.bitVector.rank(y, true) + 1;
         } else {
@@ -36,21 +36,21 @@ export class LOUDSTrie {
     }
 
     traverse(index: number, c: number): number {
-        let firstChild = this.firstChild(index);
+        const firstChild = this.firstChild(index);
         if (firstChild == -1) {
             return -1;
         }
-        let childStartBit = this.bitVector.select(firstChild, true);
-        let childEndBit = this.bitVector.nextClearBit(childStartBit);
-        let childSize = childEndBit - childStartBit;
-        let result = binarySearchUint16(this.edges, firstChild, firstChild + childSize, c);
+        const childStartBit = this.bitVector.select(firstChild, true);
+        const childEndBit = this.bitVector.nextClearBit(childStartBit);
+        const childSize = childEndBit - childStartBit;
+        const result = binarySearchUint16(this.edges, firstChild, firstChild + childSize, c);
         return result >= 0 ? result : -1;
     }
 
     lookup(key: string): number {
         let nodeIndex = 1;
         for (let i = 0; i < key.length; i++) {
-            let c = key.charCodeAt(i);
+            const c = key.charCodeAt(i);
             nodeIndex = this.traverse(nodeIndex, c);
             if (nodeIndex == -1) {
                 break;
@@ -71,7 +71,7 @@ export class LOUDSTrie {
         }
     }
 
-    size() {
+    size(): number {
         return this.edges.length - 2;
     }
 }
