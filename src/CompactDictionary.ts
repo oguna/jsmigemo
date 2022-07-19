@@ -107,11 +107,9 @@ export class CompactDictionary {
             const size = valueEndPos - valueStartPos - 1;
             if (size > 0) {
                 const offset = this.mappingBitVector.rank(valueStartPos, false);
-                const result = new Array<string>(size);
-                for (let i = 0; i < result.length; i++) {
+                for (let i = 0; i < size; i++) {
                     yield this.valueTrie.reverseLookup(this.mapping[valueStartPos - offset + i]);
                 }
-                return result;
             }
         }
     }
