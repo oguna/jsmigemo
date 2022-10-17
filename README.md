@@ -5,6 +5,31 @@
 
 JavaScriptでMigemoを利用するためのライブラリ
 
+## Install from npm
+
+```
+$ npm install jsmigemo
+```
+
+## Install from CDN
+
+`https://cdn.jsdelivr.net/npm/jsmigemo/dist/<filename>` の `<filename>` の部分に、用途に応じて以下のファイル名を指定してください。
+
+| Format | Default | Minified |
+|:------:|---------|----------|
+| ESModule | jsmigemo.mjs | jsmigemo.min.mjs |
+| CommonJS | jsmigemo.cjs | jsmigemo.min.cjs |
+| IIFE | jsmigemo.js | jsmigemo.min.js |
+
+DefaultとMinifiedの違いは以下です。
+- Defaultは、ソースコードを1つにまとめただけの、変数名もそのまま残っているJSファイルです。開発時にはこちらをご利用ください。
+- Minifiedは、ファイルサイズを小さくするための様々な処理をしたJSファイルです。配布時にはこちらをご利用ください。
+
+ESModuleとCommonJS、IIFEの違いは以下です。
+- ESModuleは、最近のバンドラやNode.JS、モダンブラウザなど幅広く利用できるフォーマットです。
+- CommonJSは、browserifyやwebpack1のような古いバンドラでの利用を意図したフォーマットです。
+- IIFEは、レガシーブラウザやESModuleの利用できない環境（例えばローカルのJSファイル）での利用を意図したフォーマットです。
+
 ## HOW TO USE
 
 ### CLI
