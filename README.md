@@ -56,6 +56,19 @@ console.log(m.query('kensaku'));
 //=> (kensaku|けんさく|ケンサク|建策|憲[作冊]|検索|献策|研削|羂索|ｋｅｎｓａｋｕ|ｹﾝｻｸ)
 ```
 
+### Deno
+
+```js
+import * as migemo from "https://cdn.jsdelivr.net/npm/jsmigemo/dist/jsmigemo.min.mjs";
+
+const data = await Deno.readFile("./migemo-compact-dict");
+const dict = new migemo.CompactDictionary(data.buffer);
+const m = new migemo.Migemo();
+m.setDict(dict);
+console.log(m.query("kensaku"));
+//=> (kensaku|けんさく|ケンサク|建策|憲[作冊]|検索|献策|研削|羂索|ｋｅｎｓａｋｕ|ｹﾝｻｸ)
+```
+
 ### Browser
 
 `jsmigemo.js` と `migemo-compact-dict` を本リポジトリから用意します。
