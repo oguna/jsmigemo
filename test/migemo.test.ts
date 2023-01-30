@@ -1,6 +1,7 @@
 import { Migemo } from "../src/Migemo";
 import { CompactDictionary } from "../src/CompactDictionary";
 import { readFileSync } from "fs";
+import { RomajiProcessor1, RomanEntry } from "../src/RomajiProcessor1";
 
 describe("migemo", () => {
     const buff = readFileSync('migemo-compact-dict');
@@ -28,4 +29,19 @@ describe("migemo", () => {
         const regex = RegExp(result);
         expect(regex.exec("連文節の検索")).toEqual(expect.anything());
     });
+
+    it("AZIK配列対応", () => {
+        const data = readFileSync('test/romantable_azik.txt', 'utf-8')
+        const roman_entries: RomanEntry[] = []
+        for (const line of data.split('\n')) {
+            const [a, b] = line.trim().split('\t')
+            roman_entries.push(new RomanEntry(a ,b , 0))
+        }
+        const rp = new RomajiProcessor1(roman_entries)
+        const migemo = new Migemo()
+        migemo.setDict(dict)
+        migemo.setRomajiProcessor(rp)
+        const result = migemo.query('keqsaku')
+        expect(result).toBe('(keqsaku|けんさく|ケンサク|建策|憲[作冊]|検索|献策|研削|羂索|ｋｅｑｓａｋｕ|ｹﾝｻｸ)')
+    })
 });

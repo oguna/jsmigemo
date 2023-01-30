@@ -2,14 +2,15 @@ import { CompactDictionary } from "./CompactDictionary";
 import {zen2han_conv, han2zen_conv, hira2kata_conv} from "./CharacterConverter";
 import { TernaryRegexGenerator } from "./TernaryRegexGenerator";
 import { RomajiProcessor2 } from "./RomajiProcessor2";
+import { RomajiProcessor } from "./RomajiProcessor";
 export class Migemo {
     dict: CompactDictionary | null;
     rxop: Array<string> | null;
-    processor: RomajiProcessor2;
+    processor: RomajiProcessor;
     constructor() {
         this.dict = null;
         this.rxop = null;
-        this.processor = RomajiProcessor2.buildProcessor();
+        this.processor = RomajiProcessor2.build();
     }
     queryAWord(word: string): string {
         const generator = this.rxop == null ? TernaryRegexGenerator.getDEFAULT() : new TernaryRegexGenerator(this.rxop[0], this.rxop[1], this.rxop[2], this.rxop[3], this.rxop[4], this.rxop[5]);
@@ -67,6 +68,10 @@ export class Migemo {
 
     setRxop(rxop: [string] | null) {
         this.rxop = rxop;
+    }
+
+    setRomajiProcessor(processor: RomajiProcessor) {
+        this.processor = processor;
     }
 
     *parseQuery(query: string): IterableIterator<string> {

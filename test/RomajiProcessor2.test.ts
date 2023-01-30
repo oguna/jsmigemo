@@ -2,7 +2,7 @@ import { RomajiProcessor2 } from "../src/RomajiProcessor2";
 
 describe('RomajiProcessor2', () => {
     it('romajiToHiragana', () => {
-        const processor = RomajiProcessor2.buildProcessor();
+        const processor = RomajiProcessor2.build();
         expect(processor.romajiToHiragana("ro-maji")).toBe("ろーまじ");
         expect(processor.romajiToHiragana("atti")).toBe("あっち");
         expect(processor.romajiToHiragana("att")).toBe("あっt");
@@ -12,13 +12,13 @@ describe('RomajiProcessor2', () => {
         expect(processor.romajiToHiragana("kensaku")).toBe("けんさく");
     });
     it('romajiToHiraganaPredictively_kiku', () => {
-        const processor = RomajiProcessor2.buildProcessor();
+        const processor = RomajiProcessor2.build();
         const a = processor.romajiToHiraganaPredictively("kiku");
         expect(a.prefix).toBe("きく");
         expect(a.suffixes).toStrictEqual([""]);
     });
     it('romajiToHiraganaPredictively_saky', () => {
-        const processor = RomajiProcessor2.buildProcessor();
+        const processor = RomajiProcessor2.build();
         const a = processor.romajiToHiraganaPredictively("saky");
         expect(a.prefix).toBe("さ");
         expect(a.suffixes).toStrictEqual(["きゃ", "きぇ", "きぃ", "きょ", "きゅ"]);
