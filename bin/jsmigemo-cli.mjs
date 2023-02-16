@@ -72,7 +72,7 @@ for (let i = 2; i < process.argv.length; i++) {
 }
 if (mode_help) {
     help(prgname);
-    exit(0);
+    process.exit(0);
 }
 
 const buffer = fs.readFileSync(file);
