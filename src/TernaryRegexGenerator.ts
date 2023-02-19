@@ -193,7 +193,7 @@ export class TernaryRegexGenerator {
                 }
             }
             if (haschild > 1) {
-                buf = buf.substr(0, buf.length - 1);
+                buf = buf.substring(0, buf.length - this.or.length);
             }
         }
         if (brother > 1 && haschild > 0) {

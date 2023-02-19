@@ -44,4 +44,13 @@ describe("migemo", () => {
         const result = migemo.query('keqsaku')
         expect(result).toBe('(keqsaku|けんさく|ケンサク|建策|憲[作冊]|検索|献策|研削|羂索|ｋｅｑｓａｋｕ|ｹﾝｻｸ)')
     })
+
+    it("#17", () => {
+        const migemo = new Migemo();
+        migemo.setDict(dict);
+        migemo.setRxop(["\\|", "\\%(", "\\)", "[", "]", ""])
+        const result = migemo.query("kensaku");
+        const TOBE = "\\%(kensaku\\|けんさく\\|ケンサク\\|建策\\|憲[作冊]\\|検索\\|献策\\|研削\\|羂索\\|ｋｅｎｓａｋｕ\\|ｹﾝｻｸ\\)"
+        expect(result).toBe(TOBE);
+    })
 });
