@@ -9,18 +9,18 @@ import readline from 'readline';
 
 function help(prgname) {
     const MIGEMO_ABOUT = "jsmigemo - Js/Migemo Library";
-    console.log(`${MIGEMO_ABOUT}\n
-    \n
-    USAGE: ${prgname} [OPTIONS]\n
-    \n
-    OPTIONS:\n
-      -d --dict <dict>	Use a file <dict> for dictionary.\n
-      -q --quiet		Show no message except results.\n
-      -v --vim		Use vim style regexp.\n
-      -e --emacs		Use emacs style regexp.\n
-      -n --nonewline	Don't use newline match.\n
-      -w --word <word>	Expand a <word> and soon exit.\n
-      -h --help		Show this message.`);
+    console.log(MIGEMO_ABOUT + "\n" +
+    "\n" +
+    "USAGE: " + prgname + " [OPTIONS]\n" +
+    "\n" +
+    "OPTIONS:\n" +
+    "  -d --dict <dict>	Use a file <dict> for dictionary.\n" +
+    "  -q --quiet		Show no message except results.\n" +
+    "  -v --vim		Use vim style regexp.\n" +
+    "  -e --emacs		Use emacs style regexp.\n" +
+    "  -n --nonewline	Don't use newline match.\n" +
+    "  -w --word <word>	Expand a <word> and soon exit.\n" +
+    "  -h --help		Show this message.")
 }
 
 let mode_vim = false;
