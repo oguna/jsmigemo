@@ -3,9 +3,10 @@ import {zen2han_conv, han2zen_conv, hira2kata_conv} from "./CharacterConverter";
 import { TernaryRegexGenerator } from "./TernaryRegexGenerator";
 import { RomajiProcessor2 } from "./RomajiProcessor2";
 import { RomajiProcessor } from "./RomajiProcessor";
+export type Rxop = [string, string, string, string, string, string, string]
 export class Migemo {
     dict: CompactDictionary | null;
-    rxop: string[] | null;
+    rxop: Rxop | null;
     processor: RomajiProcessor;
     constructor() {
         this.dict = null;
@@ -66,7 +67,7 @@ export class Migemo {
         this.dict = dict;
     }
 
-    setRxop(rxop: string[] | null) {
+    setRxop(rxop: Rxop | null) {
         this.rxop = rxop;
     }
 
