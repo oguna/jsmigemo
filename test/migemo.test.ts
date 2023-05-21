@@ -61,7 +61,7 @@ describe("migemo", () => {
         migemo.setDict(dict);
         migemo.setRxop(["\\|", "\\%(", "\\)", "[", "]", "", VIM_ESCAPE])
         const result_i = migemo.query("i");
-        const TOCONTAIN_i = '\\(concat "I\\\\057O\\%(")\\|ポート")\\)'
+        const TOCONTAIN_i = '(concat "I\\\\057O\\%(")\\|ポート")\\)'
         expect(result_i).toContain(TOCONTAIN_i);
         const result_j = migemo.query("j");
         const TOCONTAIN_j = 'k\\$_{eff\\}\\$'
