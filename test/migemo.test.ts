@@ -46,11 +46,25 @@ describe("migemo", () => {
     })
 
     it("#17", () => {
+        const ESCAPE = "\\.[]{}()*+-?^$|";
         const migemo = new Migemo();
         migemo.setDict(dict);
-        migemo.setRxop(["\\|", "\\%(", "\\)", "[", "]", ""])
+        migemo.setRxop(["\\|", "\\%(", "\\)", "[", "]", "", ESCAPE])
         const result = migemo.query("kensaku");
         const TOBE = "\\%(kensaku\\|けんさく\\|ケンサク\\|建策\\|憲[作冊]\\|検索\\|献策\\|研削\\|羂索\\|ｋｅｎｓａｋｕ\\|ｹﾝｻｸ\\)"
         expect(result).toBe(TOBE);
+    })
+
+    it("#21,#22", () => {
+        const VIM_ESCAPE = "\\.[]}*+-?^$|"; // {と()はエスケープしない
+        const migemo = new Migemo();
+        migemo.setDict(dict);
+        migemo.setRxop(["\\|", "\\%(", "\\)", "[", "]", "", VIM_ESCAPE])
+        const result_i = migemo.query("i");
+        const TOCONTAIN_i = '\\(concat "I\\\\057O\\%(")\\|ポート")\\)'
+        expect(result_i).toContain(TOCONTAIN_i);
+        const result_j = migemo.query("j");
+        const TOCONTAIN_j = 'k\\$_{eff\\}\\$'
+        expect(result_j).toContain(TOCONTAIN_j);
     })
 });

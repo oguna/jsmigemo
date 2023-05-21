@@ -108,7 +108,7 @@ export class TernaryRegexGenerator {
     root: TernaryRegexNode | null;
     escapedCharacters: BitList;
 
-    constructor(or: string, beginGroup: string, endGroup: string, beginClass: string, endClass: string, newline: string) {
+    constructor(or: string, beginGroup: string, endGroup: string, beginClass: string, endClass: string, newline: string, escape: string) {
         this.or = or;
         this.beginGroup = beginGroup;
         this.endGroup = endGroup;
@@ -116,18 +116,23 @@ export class TernaryRegexGenerator {
         this.endClass = endClass;
         this.newline = newline;
         this.root = null;
-        this.escapedCharacters = TernaryRegexGenerator.initializeEscapeCharacters();
+        this.escapedCharacters = TernaryRegexGenerator.initializeEscapeCharacters(escape);
     }
 
     static getDEFAULT(): TernaryRegexGenerator {
-		return new TernaryRegexGenerator("|", "(", ")", "[", "]", "");
+        const ESCAPE = "\\.[]{}()*+-?^$|";
+		return new TernaryRegexGenerator("|", "(", ")", "[", "]", "", ESCAPE);
 	}
 
-    static initializeEscapeCharacters(): BitList {
-        const ESCAPE = "\\.[]{}()*+-?^$|";
+    static initializeEscapeCharacters(escape: string): BitList {
         const bits = new BitList(128);
-        for (let i = 0; i < ESCAPE.length; i++) {
-            bits.set(ESCAPE.charCodeAt(i), true);
+        for (let i = 0; i < escape.length; i++) {
+            const c = escape.charCodeAt(i)
+            if (c < 128) {
+                bits.set(c, true);
+            } else {
+                throw new Error("アスキー文字のみエスケープできます")
+            }
         }
         return bits;
     }

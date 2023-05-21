@@ -78,19 +78,22 @@ if (mode_help) {
 const buffer = fs.readFileSync(file);
 const dict = new CompactDictionary(buffer.buffer);
 
-let rxop = ["|", "(", ")", "[", "]", ""];
+
+const ESCAPE = "\\.[]{}()*+-?^$|";
+let rxop = ["|", "(", ")", "[", "]", "", ESCAPE];
 if (mode_vim) {
+    const VIM_ESCAPE = "\\.[]}*+-?^$|"; // {と)はエスケープしない
     if (mode_nonewline) {
-        rxop = ["\\|", "\\%(", "\\)", "[", "]", ""];
+        rxop = ["\\|", "\\%(", "\\)", "[", "]", "", VIM_ESCAPE];
     } else {
-        rxop = ["\\|", "\\%(", "\\)", "[", "]", "\\_s*"];
+        rxop = ["\\|", "\\%(", "\\)", "[", "]", "\\_s*", VIM_ESCAPE];
     }
 }
 else if (mode_emacs) {
     if (mode_nonewline) {
-        rxop = ["\\|", "\\(", "\\)", "[", "]", ""];
+        rxop = ["\\|", "\\(", "\\)", "[", "]", "", ESCAPE];
     } else {
-        rxop = ["\\|", "\\(", "\\)", "[", "]", "\\s-*"];
+        rxop = ["\\|", "\\(", "\\)", "[", "]", "\\s-*", ESCAPE];
     }
 }
 

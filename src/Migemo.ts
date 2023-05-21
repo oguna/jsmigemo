@@ -13,7 +13,7 @@ export class Migemo {
         this.processor = RomajiProcessor2.build();
     }
     queryAWord(word: string): string {
-        const generator = this.rxop === null ? TernaryRegexGenerator.getDEFAULT() : new TernaryRegexGenerator(this.rxop[0], this.rxop[1], this.rxop[2], this.rxop[3], this.rxop[4], this.rxop[5]);
+        const generator = this.rxop === null ? TernaryRegexGenerator.getDEFAULT() : new TernaryRegexGenerator(this.rxop[0], this.rxop[1], this.rxop[2], this.rxop[3], this.rxop[4], this.rxop[5], this.rxop[6]);
         // query自信はもちろん候補に加える
         generator.add(word);
         // queryそのものでの辞書引き
