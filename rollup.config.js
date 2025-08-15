@@ -10,11 +10,13 @@ export default [
                 name: 'jsmigemo',
                 file: 'dist/jsmigemo.mjs',
                 format: 'esm',
+                sourcemap: true,
             },
             {
                 name: 'jsmigemo',
                 file: 'dist/jsmigemo.min.mjs',
                 format: 'esm',
+                sourcemap: true,
                 plugins: [
                     terser()
                 ]
@@ -23,11 +25,13 @@ export default [
                 name: 'jsmigemo',
                 file: 'dist/jsmigemo.cjs',
                 format: 'cjs',
+                sourcemap: true,
             },
             {
                 name: 'jsmigemo',
                 file: 'dist/jsmigemo.min.cjs',
                 format: 'cjs',
+                sourcemap: true,
                 plugins: [
                     terser()
                 ]
@@ -36,11 +40,13 @@ export default [
                 name: 'jsmigemo',
                 file: 'dist/jsmigemo.js',
                 format: 'iife',
+                sourcemap: true,
             },
             {
                 name: 'jsmigemo',
                 file: 'dist/jsmigemo.min.js',
                 format: 'iife',
+                sourcemap: true,
                 plugins: [
                     terser()
                 ]
@@ -49,6 +55,8 @@ export default [
         plugins: [
             pluginTypescript({
                 declaration: false,
+                outDir: undefined,
+                sourceMap: true,
             }),
         ]
     },
