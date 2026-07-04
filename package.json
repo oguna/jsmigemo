@@ -33,11 +33,11 @@
     "url": "git+ssh://git@github.com/oguna/jsmigemo.git"
   },
   "devDependencies": {
-    "@types/node": "^24.12.4",
-    "tsdown": "^0.22.0",
+    "@types/node": "^24.13.2",
+    "tsdown": "^0.22.3",
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.6"
+    "vitest": "^4.1.9"
   },
   "files": [
     "bin",
