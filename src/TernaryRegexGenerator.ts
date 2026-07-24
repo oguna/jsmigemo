@@ -58,14 +58,19 @@ function split(t: TernaryRegexNode | null): TernaryRegexNode | null {
 
 function add(node: TernaryRegexNode | null, word: string, offset: number): TernaryRegexNode | null {
     if (offset < word.length) {
-        let [node_, target, inserted] = insert(word.charCodeAt(offset), node);
+        const value = word.codePointAt(offset)!;
+        let [node_, target, inserted] = insert(value, node);
         if (inserted || target.child != null) {
-            target.child = add(target.child, word, offset + 1);
+            target.child = add(target.child, word, offset + (value > 0xffff ? 2 : 1));
         }
         return node_;
     } else {
         return null;
     }
+}
+
+function isBmpScalarValue(value: number): boolean {
+    return value <= 0xffff && (value < 0xd800 || value > 0xdfff);
 }
 
 function* traverseSiblings(node: TernaryRegexNode | null): IterableIterator<TernaryRegexNode> {
@@ -146,62 +151,78 @@ export class TernaryRegexGenerator {
 
     generateStub(node: TernaryRegexNode | null): string {
         let buf = "";
-        let brother = 0;
+        let bmpNoChild = 0;
+        let otherNoChild = 0;
         let haschild = 0;
         for (let n of traverseSiblings(node)) {
-            brother++;
             if (n.child != null) {
                 haschild++;
+            } else if (isBmpScalarValue(n.value)) {
+                bmpNoChild++;
+            } else {
+                otherNoChild++;
             }
         }
-        const nochild = brother - haschild;
+        const alternatives = (bmpNoChild > 0 ? 1 : 0) + otherNoChild + haschild;
 
-        if (brother > 1 && haschild > 0) {
+        if (alternatives > 1) {
             buf += this.beginGroup;
         }
 
-        if (nochild > 0) {
-            if (nochild > 1) {
+        let generatedAlternatives = 0;
+        if (bmpNoChild > 0) {
+            if (bmpNoChild > 1) {
                 buf += this.beginClass;
             }
             for (let n of traverseSiblings(node)) {
-                if (n.child != null) {
+                if (n.child != null || !isBmpScalarValue(n.value)) {
                     continue;
                 }
                 if (n.value < 128 && this.escapedCharacters.get(n.value)) {
                     buf += '\\';
                 }
-                buf += String.fromCharCode(n.value);
+                buf += String.fromCodePoint(n.value);
             }
-            if (nochild > 1) {
+            if (bmpNoChild > 1) {
                 buf += this.endClass;
+            }
+            generatedAlternatives++;
+        }
+
+        if (otherNoChild > 0) {
+            for (let n of traverseSiblings(node)) {
+                if (n.child != null || isBmpScalarValue(n.value)) {
+                    continue;
+                }
+                if (generatedAlternatives > 0) {
+                    buf += this.or;
+                }
+                buf += String.fromCodePoint(n.value);
+                generatedAlternatives++;
             }
         }
 
         if (haschild > 0) {
-            if (nochild > 0) {
-                buf += this.or;
-            }
             for (let n of traverseSiblings(node)) {
-                if (n.child != null) {
-                    if (n.value < 128 && this.escapedCharacters.get(n.value)) {
-                        buf += '\\';
-                    }
-                    buf += String.fromCharCode(n.value)
-                    if (this.newline != null) { // TODO: always true
-                        buf += this.newline;
-                    }
-                    buf += this.generateStub(n.child)
-                    if (haschild > 1) {
-                        buf += this.or;
-                    }
+                if (n.child == null) {
+                    continue;
                 }
-            }
-            if (haschild > 1) {
-                buf = buf.substring(0, buf.length - this.or.length);
+                if (generatedAlternatives > 0) {
+                    buf += this.or;
+                }
+                if (n.value < 128 && this.escapedCharacters.get(n.value)) {
+                    buf += '\\';
+                }
+                buf += String.fromCodePoint(n.value)
+                if (this.newline != null) { // TODO: always true
+                    buf += this.newline;
+                }
+                buf += this.generateStub(n.child)
+                generatedAlternatives++;
             }
         }
-        if (brother > 1 && haschild > 0) {
+
+        if (alternatives > 1) {
             buf += this.endGroup;
         }
         return buf;
