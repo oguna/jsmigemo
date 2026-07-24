@@ -202,22 +202,24 @@ export class TernaryRegexGenerator {
             }
         }
 
-        for (let n of traverseSiblings(node)) {
-            if (n.child == null) {
-                continue;
+        if (haschild > 0) {
+            for (let n of traverseSiblings(node)) {
+                if (n.child == null) {
+                    continue;
+                }
+                if (generatedAlternatives > 0) {
+                    buf += this.or;
+                }
+                if (n.value < 128 && this.escapedCharacters.get(n.value)) {
+                    buf += '\\';
+                }
+                buf += String.fromCodePoint(n.value)
+                if (this.newline != null) { // TODO: always true
+                    buf += this.newline;
+                }
+                buf += this.generateStub(n.child)
+                generatedAlternatives++;
             }
-            if (generatedAlternatives > 0) {
-                buf += this.or;
-            }
-            if (n.value < 128 && this.escapedCharacters.get(n.value)) {
-                buf += '\\';
-            }
-            buf += String.fromCodePoint(n.value)
-            if (this.newline != null) { // TODO: always true
-                buf += this.newline;
-            }
-            buf += this.generateStub(n.child)
-            generatedAlternatives++;
         }
 
         if (alternatives > 1) {
