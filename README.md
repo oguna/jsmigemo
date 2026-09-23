@@ -28,7 +28,7 @@ DefaultとMinifiedの違いは以下です。
 ESModuleとCommonJS、IIFEの違いは以下です。
 - ESModuleは、最近のバンドラやNode.JS、モダンブラウザなど幅広く利用できるフォーマットです。
 - CommonJSは、browserifyやwebpack1のような古いバンドラでの利用を意図したフォーマットです。
-- IIFEは、レガシーブラウザやESModuleの利用できない環境（例えばローカルのJSファイル）での利用を意図したフォーマットです。
+- IIFEは、ES2022に対応した環境で通常の `<script>` タグから利用するためのフォーマットです。
 
 ## HOW TO USE
 

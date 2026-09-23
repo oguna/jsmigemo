@@ -4,6 +4,7 @@ export default defineConfig([
   {
     entry: { 'jsmigemo': './src/index.ts' },
     format: ['esm', 'cjs', 'iife'],
+    target: 'es2022',
     globalName: 'jsmigemo',
     minify: false,
     sourcemap: true,
@@ -14,6 +15,7 @@ export default defineConfig([
   {
     entry: { 'jsmigemo.min': './src/index.ts' },
     format: ['esm', 'cjs', 'iife'],
+    target: 'es2022',
     globalName: 'jsmigemo',
     minify: true,
     sourcemap: true,

@@ -4,15 +4,20 @@
   "description": "migemo on javascript",
   "type": "module",
   "main": "./dist/jsmigemo.cjs",
-  "types": "./dist/jsmigemo.d.ts",
+  "types": "./dist/jsmigemo.d.mts",
   "module": "./dist/jsmigemo.mjs",
   "unpkg": "./dist/jsmigemo.min.iife.js",
   "jsdelivr": "./dist/jsmigemo.min.iife.js",
   "exports": {
     ".": {
-      "types": "./dist/jsmigemo.d.ts",
-      "import": "./dist/jsmigemo.mjs",
-      "require": "./dist/jsmigemo.cjs"
+      "import": {
+        "types": "./dist/jsmigemo.d.mts",
+        "default": "./dist/jsmigemo.mjs"
+      },
+      "require": {
+        "types": "./dist/jsmigemo.d.cts",
+        "default": "./dist/jsmigemo.cjs"
+      }
     }
   },
   "bin": "bin/jsmigemo-cli.mjs",
